@@ -6,20 +6,26 @@ export function generateStaticParams() {
   return getAllSlugs("node").map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const article = getArticle("node", params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const article = getArticle("node", slug);
   return { title: `${article.title} — khlilo` };
 }
 
-export default function NodeArticlePage({
+export default async function NodeArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const slugs = getAllSlugs("node");
-  if (!slugs.includes(params.slug)) notFound();
+  if (!slugs.includes(slug)) notFound();
 
-  const article = getArticle("node", params.slug);
+  const article = getArticle("node", slug);
 
   return (
     <ArticleLayout

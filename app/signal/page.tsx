@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const articles: { slug: string; date: string; title: string }[] = [
-  { slug: "我为什么不推荐大学生家教？", date: "2026.03.08", title: "我为什么不推荐大学生家教？" },
+  { slug: "why-not-tutoring", date: "2026.03.08", title: "我为什么不推荐大学生家教？" },
 ];
 
 export default function SignalPage() {

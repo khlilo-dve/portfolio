@@ -6,20 +6,26 @@ export function generateStaticParams() {
   return getAllSlugs("signal").map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const article = getArticle("signal", params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const article = getArticle("signal", slug);
   return { title: `${article.title} — khlilo` };
 }
 
-export default function SignalArticlePage({
+export default async function SignalArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const slugs = getAllSlugs("signal");
-  if (!slugs.includes(params.slug)) notFound();
+  if (!slugs.includes(slug)) notFound();
 
-  const article = getArticle("signal", params.slug);
+  const article = getArticle("signal", slug);
 
   return (
     <ArticleLayout

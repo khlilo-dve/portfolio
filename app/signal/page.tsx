@@ -7,8 +7,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const articles: { slug: string; date: string; title: string }[] = [
-  // 新增文章格式：
-  // { slug: "your-file-name", date: "2026.03.08", title: "你的文章标题" },
+  { slug: "我为什么不推荐大学生家教？", date: "2026.03.08", title: "我为什么不推荐大学生家教？" },
 ];
 
 export default function SignalPage() {

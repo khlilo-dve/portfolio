@@ -5,18 +5,24 @@ import { motion } from "framer-motion";
 
 const beaconData = {
   currentStatus: {
-    role: "",
-    focus: "",
-    location: "",
-    availability: "",
+    role: "Freshman & Independent Builder (大一 / 独立开发者)",
+    focus: "Low-level Architecture · Security Auditing · ZK (底层架构 / 智能合约审计 / 零知识证明)",
+    location: "Cyberspace / Web3 Nodes (赛博空间 / Web3 节点)",
+    availability: "Absorbing Knowledge & Building Prototypes (高维认知吸收与系统试错中)",
   },
   techStack: {
-    primary: [] as string[],
-    frameworks: [] as string[],
-    infrastructure: [] as string[],
-    interests: [] as string[],
+    primary: ["Rust (Core Weapon)", "System Thinking (系统思维)"],
+    frameworks: ["AI-Driven Dev (Cursor/LLM)", "Prompt Engineering"],
+    infrastructure: ["Web3", "Decentralized Networks"],
+    interests: ["ZK-Proofs", "Smart Contract Auditing", "Asset Allocation"],
   },
-  principles: [] as string[],
+  principles: [
+    "**Extreme AI Leverage (极致的算力杠杆)**：将前端页面等一切可被标准化的技能外包给 AI。把人类极其稀缺的注意力，绝对聚焦于底层架构与高维策略的演进。",
+    "**Reject Linear Time-Trading (拒绝线性消耗)**：绝不参与纯粹用体力或线性时间换取金钱、且无法带来认知增长的零和博弈（如无效兼职）。",
+    "**Attention is Currency (注意力即绝对货币)**：深刻认知时间的复利价值。在启动任何‘思考’与‘行动’之前，必须先植入一道‘决策防火墙’，拦截低信噪比的信息。",
+    "**Producer's Lens (绝对生产者视角)**：剥离消费者的外衣，去审视和破解这个世界的底层运行代码。不要只做应用的使用者，去做规则的审计者和系统的构建者。",
+    "**Radical Long-termism (激进的长期主义)**：个人成长就是最顶级的资产配置。相信微小行动的指数级力量，敢于试错，让认知和数字资产在时间长河里产生疯狂的复利。"
+  ],
 };
 
 function Field({

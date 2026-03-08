@@ -1,4 +1,4 @@
-import { getAllSlugs, getArticle } from "@/lib/mdx";
+import { getAllSlugs, getArticle, getArticleEnglish } from "@/lib/mdx";
 import { ArticleLayout } from "@/app/components/article-layout";
 import { notFound } from "next/navigation";
 
@@ -26,15 +26,18 @@ export default async function SignalArticlePage({
   if (!slugs.includes(slug)) notFound();
 
   const article = getArticle("signal", slug);
+  const articleEn = getArticleEnglish("signal", slug);
 
   return (
     <ArticleLayout
       title={article.title}
+      titleEn={articleEn?.title}
       date={article.date}
       tags={article.tags}
       backHref="/signal"
       backLabel="← /Signal"
       content={article.content}
+      contentEn={articleEn?.content}
     />
   );
 }

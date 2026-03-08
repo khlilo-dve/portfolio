@@ -52,7 +52,7 @@ export function getAllSlugs(category: string): string[] {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
-    .filter((f) => f.endsWith(".mdx"))
+    .filter((f) => f.endsWith(".mdx") && !f.endsWith(".en.mdx"))
     .map((f) => f.replace(/\.mdx$/, ""));
 }
 
@@ -77,6 +77,24 @@ export function getAllArticles(category: string): ArticleMeta[] {
 
 export function getArticle(category: string, slug: string): Article {
   const filePath = path.join(getDir(category), `${slug}.mdx`);
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = parseFrontmatter(raw);
+  return {
+    slug,
+    title: (data.title as string) ?? slug,
+    date: (data.date as string) ?? "",
+    summary: data.summary as string | undefined,
+    tags: data.tags as string[] | undefined,
+    content,
+  };
+}
+
+export function getArticleEnglish(
+  category: string,
+  slug: string
+): Article | null {
+  const filePath = path.join(getDir(category), `${slug}.en.mdx`);
+  if (!fs.existsSync(filePath)) return null;
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = parseFrontmatter(raw);
   return {

@@ -1,4 +1,4 @@
-import { getAllSlugs, getArticle } from "@/lib/mdx";
+import { getAllSlugs, getArticle, getArticleEnglish } from "@/lib/mdx";
 import { ArticleLayout } from "@/app/components/article-layout";
 import { notFound } from "next/navigation";
 
@@ -26,15 +26,18 @@ export default async function NodeArticlePage({
   if (!slugs.includes(slug)) notFound();
 
   const article = getArticle("node", slug);
+  const articleEn = getArticleEnglish("node", slug);
 
   return (
     <ArticleLayout
       title={article.title}
+      titleEn={articleEn?.title}
       date={article.date}
       tags={article.tags}
       backHref="/node"
       backLabel="← /Node"
       content={article.content}
+      contentEn={articleEn?.content}
     />
   );
 }

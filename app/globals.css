@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #0a0a0a;
+  --color-foreground: #ededed;
+  --color-muted: #888888;
+  --color-surface: rgba(255, 255, 255, 0.03);
+  --color-surface-hover: rgba(255, 255, 255, 0.06);
+  --color-border-dim: rgba(255, 255, 255, 0.06);
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(255, 255, 255, 0.18);
+  --color-text-primary: #ededed;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-tertiary: rgba(255, 255, 255, 0.4);
+  --color-text-ghost: rgba(255, 255, 255, 0.2);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+html,
+body {
+  background-color: #0a0a0a !important;
+  color: #ededed;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* MDX Article Typography */
+.mdx-content {
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9375rem;
+}
+
+.mdx-content h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.mdx-content h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.mdx-content p {
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mdx-content strong {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+
+.mdx-content a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.2);
+  transition: text-decoration-color 0.2s;
+}
+
+.mdx-content a:hover {
+  text-decoration-color: rgba(255, 255, 255, 0.6);
+}
+
+.mdx-content blockquote {
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: rgba(255, 255, 255, 0.45);
+  font-style: italic;
+}
+
+.mdx-content ul,
+.mdx-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.mdx-content ul {
+  list-style-type: disc;
+}
+
+.mdx-content ol {
+  list-style-type: decimal;
+}
+
+.mdx-content li {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mdx-content li strong {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.mdx-content code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.85em;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.mdx-content pre {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.mdx-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.mdx-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
+}
+
+.mdx-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.mdx-content th {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.mdx-content td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mdx-content img {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}

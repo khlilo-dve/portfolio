@@ -12,10 +12,10 @@ const projects: {
   demo: string | null;
 }[] = [
   {
-    name: "Op-Sim (Operation Simulator)",
+    name: "Op-Sim (Synthetic Data Engine)",
     description:
-      "工业级高保真业务数据仿真引擎，基于 Rust 状态机与真实生物钟时间陷阱算法，专为合规审计与压力测试设计。",
-    stack: ["Rust", "Serde", "Rand"],
+      "工业级高并发业务数据仿真引擎。基于 Rust 状态机与时间陷阱算法，专为数据库压力测试与 AI 隐私安全训练生成千万级高保真合成数据。",
+    stack: ["Rust", "Serde", "Rand", "HPC"],
     github: "https://github.com/khlilo-dve/substantive-op-mock",
     demo: null,
   },

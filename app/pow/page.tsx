@@ -11,14 +11,14 @@ const projects: {
   github: string;
   demo: string | null;
 }[] = [
-  // 新增项目格式：
-  // {
-  //   name: "项目名",
-  //   description: "一句话描述",
-  //   stack: ["Rust", "TypeScript"],
-  //   github: "https://github.com/khlilo-dve/项目名",
-  //   demo: null,
-  // },
+  {
+    name: "Op-Sim (Operation Simulator)",
+    description:
+      "工业级高保真业务数据仿真引擎，基于 Rust 状态机与真实生物钟时间陷阱算法，专为合规审计与压力测试设计。",
+    stack: ["Rust", "Serde", "Rand"],
+    github: "https://github.com/khlilo-dve/substantive-op-mock",
+    demo: null,
+  },
 ];
 
 export default function PoWPage() {

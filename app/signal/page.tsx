@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const articles: { slug: string; date: string; title: string }[] = [
+  { slug: "producer-perspective", date: "2026.03.16", title: "你应该具备的视角——生产者视角" },
   { slug: "why-not-tutoring", date: "2026.03.08", title: "我为什么不推荐大学生家教？" },
 ];
 

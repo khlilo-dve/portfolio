@@ -8,9 +8,17 @@ const projects: {
   name: string;
   description: string;
   stack: string[];
-  github: string;
+  github: string | null;
   demo: string | null;
 }[] = [
+  {
+    name: "Cognitive Writer (AI Writing Engine)",
+    description:
+      "面向微信公众号的 AI 文章生成 CLI 工具。Rust 实现骨架-渲染双通道架构，支持风格逆向学习与局部重绘，一键生成微信兼容富文本。",
+    stack: ["Rust", "Tokio", "Clap", "LLM API"],
+    github: null,
+    demo: null,
+  },
   {
     name: "Op-Sim (Synthetic Data Engine)",
     description:
@@ -58,14 +66,16 @@ export default function PoWPage() {
                   {project.name}
                 </h3>
                 <div className="flex items-center gap-2">
-                  <a
-                    href={project.github}
-                    className="transition-opacity hover:opacity-70"
-                    style={{ color: "rgba(255,255,255,0.2)" }}
-                    aria-label="GitHub"
-                  >
-                    <Github size={14} />
-                  </a>
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      className="transition-opacity hover:opacity-70"
+                      style={{ color: "rgba(255,255,255,0.2)" }}
+                      aria-label="GitHub"
+                    >
+                      <Github size={14} />
+                    </a>
+                  )}
                   {project.demo && (
                     <a
                       href={project.demo}

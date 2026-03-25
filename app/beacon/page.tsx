@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 const beaconData = {
   currentStatus: {
-    role: "Freshman & Independent Builder (大一 / 独立开发者)",
-    focus: "Low-level Architecture · Security Auditing · ZK (底层架构 / 智能合约审计 / 零知识证明)",
+    role: "Independent Builder (独立开发者)",
+    focus: "Low-level Architecture · AI Workflow · ZK (底层架构 / AI工作流建设 / 零知识证明)",
     location: "Cyberspace / Web3 Nodes (赛博空间 / Web3 节点)",
     availability: "Absorbing Knowledge & Building Prototypes (高维认知吸收与系统试错中)",
   },
@@ -14,7 +14,7 @@ const beaconData = {
     primary: ["Rust (Core Weapon)", "System Thinking (系统思维)"],
     frameworks: ["AI-Driven Dev (Cursor/LLM)", "Prompt Engineering"],
     infrastructure: ["Web3", "Decentralized Networks"],
-    interests: ["ZK-Proofs", "Smart Contract Auditing", "Asset Allocation"],
+    interests: ["ZK-Proofs", "AI Workflow", "Asset Allocation"],
   },
   principles: [
     "**Extreme AI Leverage (极致的算力杠杆)**：将前端页面等一切可被标准化的技能外包给 AI。把人类极其稀缺的注意力，绝对聚焦于底层架构与高维策略的演进。",

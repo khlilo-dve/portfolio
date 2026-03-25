@@ -24,7 +24,7 @@ export function Footer() {
   return (
     <>
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-8">
+        <div className="mx-auto flex max-w-4xl xl:max-w-5xl 2xl:max-w-6xl items-center justify-between px-6 xl:px-8 py-8">
           <p
             className="font-mono text-xs"
             style={{ color: "rgba(255,255,255,0.25)" }}

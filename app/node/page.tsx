@@ -71,13 +71,13 @@ export default function NodePage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3
-                      className="text-sm font-medium transition-colors"
+                      className="text-sm xl:text-base font-medium transition-colors"
                       style={{ color: "rgba(255,255,255,0.75)" }}
                     >
                       {note.title}
                     </h3>
                     <p
-                      className="mt-2 text-xs leading-relaxed line-clamp-2"
+                      className="mt-2 text-xs xl:text-sm leading-relaxed line-clamp-2"
                       style={{ color: "rgba(255,255,255,0.3)" }}
                     >
                       {note.preview}

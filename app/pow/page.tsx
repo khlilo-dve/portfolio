@@ -45,7 +45,7 @@ export default function PoWPage() {
           &gt;_ building...
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, i) => (
             <motion.div
               key={i}
@@ -60,7 +60,7 @@ export default function PoWPage() {
             >
               <div className="flex items-start justify-between">
                 <h3
-                  className="font-mono text-sm font-medium transition-colors"
+                  className="font-mono text-sm xl:text-base font-medium transition-colors"
                   style={{ color: "rgba(255,255,255,0.75)" }}
                 >
                   {project.name}
@@ -90,7 +90,7 @@ export default function PoWPage() {
               </div>
 
               <p
-                className="mt-2 text-xs"
+                className="mt-2 text-xs xl:text-sm"
                 style={{ color: "rgba(255,255,255,0.35)" }}
               >
                 {project.description}

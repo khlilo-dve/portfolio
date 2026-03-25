@@ -33,7 +33,7 @@ export function Header() {
         borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 max-w-4xl xl:max-w-5xl 2xl:max-w-6xl items-center justify-between px-6 xl:px-8">
         <Link
           href="/"
           className="font-mono text-sm tracking-widest transition-colors"

@@ -41,13 +41,13 @@ function Field({
       style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
     >
       <span
-        className="w-32 shrink-0 font-mono text-xs uppercase tracking-wider"
+        className="w-32 shrink-0 font-mono text-xs xl:text-sm uppercase tracking-wider"
         style={{ color: "rgba(255,255,255,0.2)" }}
       >
         {label}
       </span>
       <span
-        className={`text-sm ${mono ? "font-mono text-xs" : ""}`}
+        className={`text-sm xl:text-base ${mono ? "font-mono text-xs xl:text-sm" : ""}`}
         style={{ color: "rgba(255,255,255,0.55)" }}
       >
         {value}

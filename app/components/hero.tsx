@@ -11,7 +11,7 @@ const lines = [
 export function Hero() {
   return (
     <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-6">
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-2xl xl:max-w-3xl">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -19,7 +19,7 @@ export function Hero() {
           className="mb-8"
         >
           <span
-            className="font-mono text-xs tracking-[0.3em] uppercase"
+            className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
             &gt;_ init
@@ -33,7 +33,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.3 }}
-              className="text-lg leading-relaxed tracking-wide md:text-xl"
+              className="text-lg leading-relaxed tracking-wide md:text-xl xl:text-2xl"
               style={{ color: "rgba(255,255,255,0.8)" }}
             >
               {line}

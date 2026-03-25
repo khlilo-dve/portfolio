@@ -189,3 +189,34 @@ body {
   border-radius: 8px;
   margin: 1.5rem 0;
 }
+
+/* Large screen typography scaling */
+@media (min-width: 1280px) {
+  .mdx-content {
+    font-size: 1.0625rem;
+  }
+  .mdx-content h2 {
+    font-size: 1.375rem;
+  }
+  .mdx-content h3 {
+    font-size: 1.175rem;
+  }
+  .mdx-content pre {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .mdx-content {
+    font-size: 1.125rem;
+  }
+  .mdx-content h2 {
+    font-size: 1.5rem;
+  }
+  .mdx-content h3 {
+    font-size: 1.25rem;
+  }
+  .mdx-content pre {
+    font-size: 0.925rem;
+  }
+}

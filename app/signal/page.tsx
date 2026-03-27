@@ -8,6 +8,11 @@ import Link from "next/link";
 
 const articles: { slug: string; date: string; title: string }[] = [
   {
+    slug: "what-abilities-should-you-cultivate",
+    date: "2026.03.27",
+    title: "你应该培养什么样的能力",
+  },
+  {
     slug: "what-values-should-you-cultivate",
     date: "2026.03.14",
     title: "你应该培养什么样的价值？",

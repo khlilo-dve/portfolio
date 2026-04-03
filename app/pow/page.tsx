@@ -12,6 +12,14 @@ const projects: {
   demo: string | null;
 }[] = [
   {
+    name: "Style Decoder (认知盗火者)",
+    description:
+      "文章风格逆向工程 CLI 工具。输入一篇文章 URL，十维解析写作风格并一键生成可复用的 AI System Prompt，让 LLM 精准复刻任意作者的认知结构与表达节奏。",
+    stack: ["Rust", "Tokio", "Reqwest", "LLM API"],
+    github: "https://github.com/khlilo-dve/style-decoder",
+    demo: null,
+  },
+  {
     name: "Cognitive Writer (AI Writing Engine)",
     description:
       "面向微信公众号的 AI 文章生成 CLI 工具。Rust 实现骨架-渲染双通道架构，支持风格逆向学习与局部重绘，一键生成微信兼容富文本。",

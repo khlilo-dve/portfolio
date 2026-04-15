@@ -7,6 +7,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const articles: { slug: string; date: string; title: string }[] = [
+  {
+    slug: "stop-learning-start-building",
+    date: "2026.04.16",
+    title: "你无法坚持一件事，是因为太喜欢“学习”",
+  },
   { slug:"agi-era-survival-guide",date:"2026.04.07",title:"困扰所有人的AI时代焦虑和似乎无解的困境"},
   {
     slug: "what-abilities-should-you-cultivate",

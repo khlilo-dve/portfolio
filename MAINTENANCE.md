@@ -32,9 +32,66 @@ my-website/
 │   └── node/                       # Node 笔记 MDX 文件
 ├── public/
 │   └── wechat-qrcode.png           # 微信公众号二维码
-└── lib/
-    └── mdx.ts                      # MDX 解析工具库
+├── lib/
+│   └── mdx.ts                      # MDX 解析工具库
+└── tools/
+    └── article-cli/                # Rust CLI：自动化创建新文章（见下文）
 ```
+
+---
+
+## 自动化工具：article-cli（推荐流程）
+
+> 覆盖「二、发布 Signal」「三、发布 Node」「四、添加双语版本」里创建新文章的全部动作。只修改站点标题/链接等场景不需要它。
+
+`tools/article-cli/` 是站点仓库自带的 Rust CLI，一条命令完成：
+
+1. 生成 `content/<signal|node>/<slug>.mdx`，带标准 frontmatter
+2. 可选生成 `<slug>.en.mdx` 英文版（共用日期/标签，标题与摘要独立）
+3. 在 `app/<signal|node>/page.tsx` 的索引数组首位登记条目（列表日期自动转 `YYYY.MM.DD`）
+
+### 首次构建
+
+```bash
+cd tools/article-cli
+cargo build --release
+# 产物：tools/article-cli/target/release/article-cli
+```
+
+### 交互模式
+
+在工程任意目录下运行：
+
+```bash
+./tools/article-cli/target/release/article-cli new
+```
+
+按提示依次填写：文章类型（Signal/Node）→ slug → 中文标题 → 一句话摘要 → tags（仅 Node 会问）→ 日期（回车默认今天）→ 是否同时创建英文版。
+
+### 快速模式（带参数）
+
+```bash
+./tools/article-cli/target/release/article-cli new -t signal -s my-new-article "我的文章标题"
+```
+
+| 参数 | 含义 |
+|---|---|
+| `-t, --type <signal\|node>` | 文章类型 |
+| `-s, --slug <SLUG>` | slug，规则 `^[a-z0-9][a-z0-9-]*$` |
+| `TITLE`（位置参数） | 中文标题 |
+| `--dry-run` | 仅预览生成的 mdx 与索引注入效果，不落盘 |
+
+未通过参数提供的字段会进入交互式补齐。
+
+### 失败兜底
+
+若因 `page.tsx` 结构被大幅改动而无法定位索引数组锚点，工具**不会触碰源文件**，会打印出应追加的字面量，手动粘贴到数组最前面即可。
+
+### 工具不覆盖的场景
+
+- 修改已有文章内容 → 直接编辑对应 `.mdx`
+- 删除文章 → 参考「二、删除文章」手动清理
+- 修改站点标题、品牌、邮箱、社交链接 → 参见下文「一、修改个人信息」
 
 ---
 
@@ -96,6 +153,8 @@ const lines = [
 
 ## 二、发布 Signal 认知文章
 
+> 推荐：使用上方「article-cli 自动化工具」一键完成。以下为手动步骤 / 理解底层模板用。
+
 ### 步骤 1：创建 MDX 文件
 
 在 `content/signal/` 下新建文件。文件名使用英文、数字和短横线，例如：
@@ -148,6 +207,8 @@ const articles = [
 
 ## 三、发布 Node 技术笔记
 
+> 推荐：使用上方「article-cli 自动化工具」一键完成。以下为手动步骤 / 理解底层模板用。
+
 ### 步骤 1：创建 MDX 文件
 
 在 `content/node/` 下新建文件，例如 `content/node/my-tech-note.mdx`：
@@ -180,6 +241,8 @@ summary: "一句话摘要"
 ---
 
 ## 四、添加双语版本
+
+> 推荐：使用 `article-cli` 创建新文章时，在交互式提问「同时创建英文版?」处选 y 即可自动生成 `.en.mdx` 骨架。以下说明为手动补英文版（给已有中文文章加英文版）时使用。
 
 在同一目录创建 `.en.mdx` 后缀的文件，例如：
 

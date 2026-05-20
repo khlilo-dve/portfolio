@@ -12,7 +12,7 @@ const projects: {
   demo: string | null;
 }[] = [
   {
-    name: "Style Decoder (认知盗火者)",
+    name: "Style Decoder v1.0(认知盗火者)",
     description:
       "文章风格逆向工程 CLI 工具。输入一篇文章 URL，十维解析写作风格并一键生成可复用的 AI System Prompt，让 LLM 精准复刻任意作者的认知结构与表达节奏。",
     stack: ["Rust", "Tokio", "Reqwest", "LLM API"],
@@ -20,7 +20,7 @@ const projects: {
     demo: null,
   },
   {
-    name: "Cognitive Writer (AI Writing Engine)",
+    name: "Cognitive Writer v2.0.2(AI Writing Engine)",
     description:
       "面向微信公众号的 AI 文章生成 CLI 工具。Rust 实现骨架-渲染双通道架构，支持风格逆向学习与局部重绘，一键生成微信兼容富文本。",
     stack: ["Rust", "Tokio", "Clap", "LLM API"],
@@ -28,11 +28,19 @@ const projects: {
     demo: null,
   },
   {
-    name: "Op-Sim (Synthetic Data Engine)",
+    name: "Op-Sim v1.0(Synthetic Data Engine)",
     description:
       "工业级高并发业务数据仿真引擎。基于 Rust 状态机与时间陷阱算法，专为数据库压力测试与 AI 隐私安全训练生成千万级高保真合成数据。",
     stack: ["Rust", "Serde", "Rand", "HPC"],
     github: "https://github.com/khlilo-dve/substantive-op-mock",
+    demo: null,
+  },
+  {
+    name: "Intern Radar v2.0.1.1(实习情报雷达)",
+    description:
+      "实习JD处理智能助手。自动爬取招聘平台岗位，LLM 多维度评分筛选，高分岗位入库飞书多维表格并推送通知。支持飞书机器人手动发送 URL/截图解析，也支持定时自动扫描。",
+    stack: ["Python", "飞书 API", "LLM", "Playwright", "APScheduler"],
+    github: "https://github.com/khlilo-dve/intern-radar",
     demo: null,
   },
 ];

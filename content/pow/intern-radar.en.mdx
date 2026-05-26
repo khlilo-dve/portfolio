@@ -1,0 +1,98 @@
+---
+title: "Intern Radar v2.0.1.1"
+date: "2026-04-10"
+summary: "AI-powered internship intelligence assistant with multi-dimensional scoring"
+stack: ["Python", "Lark API", "LLM", "Playwright", "APScheduler"]
+github: "https://github.com/khlilo-dve/intern-radar"
+---
+
+Automatically crawl job postings from recruitment platforms, score them with AI across multiple dimensions, and push high-scoring positions to Lark Bitable with notifications. Also supports manually sending URLs/screenshots to a Lark bot for parsing.
+
+## Architecture
+
+```
+┌─ Lark App (lark-cli WebSocket long connection) ──────┐
+│  User sends URL / screenshot → parse → score → store → card receipt │
+└──────────────────────────────────────────────────────┘
+
+┌─ Crawler Scheduler (APScheduler) ────────────────────┐
+│  Scheduled crawl Nowcoder/Boss Zhipin → trafilatura fetches JD     │
+│  → LLM 5-dimension scoring → 70+ score入库 + Lark push             │
+└──────────────────────────────────────────────────────┘
+```
+
+## Features
+
+- **Manual Mode**: Send URL or screenshot in Lark, auto-parse and score
+- **Automatic Mode**: Scheduled crawling of Nowcoder/Boss Zhipin, high-scoring positions auto-pushed to Lark
+- **Multi-URL Parsing**: Multiple links in one message parsed individually
+- **Rich Text Support**: Lark post messages (text URLs + images mixed) fully recognized
+- **Screenshot Link Generation**: Auto-extract job title + city from screenshots, generate Boss Zhipin search links
+- **Multi-dimensional Scoring**: Tech Vision / Product Dominance / Leverage Ratio / AI Leverage / Asset Sedimentation
+- **70-point Threshold**: Below 70 not stored, not pushed
+- **City Restriction**: Beijing only by default
+
+## Multi-Dimensional Scoring System
+
+Each position is scored on 5 dimensions with weighted composite matching:
+
+| Dimension | Meaning | Scoring Scale |
+|-----------|---------|---------------|
+| Tech_Vision | Technical vision requirements | 80+ LLM boundaries + Agentic Workflow / 60-79 Solution selection / 40-59 Concept awareness / {'<'}40 Pure business |
+| Product_Dominance | Product/business decision power | 80+ Independent agile validation loop / 60-79 Has voice / 40-59 Execution layer / {'<'}40 Pure execution |
+| Leverage_Ratio | High-leverage input ratio | 80+ Strategy/architecture focused / 60-79 Creation-execution balanced / 40-59 Execution-focused / {'<'}30 Pure repetition |
+| AI_Leverage | AI/automation leverage space | 80+ AI toolchain解构 complex systems / 60-79 Partial automation / 40-59 Minor assistance / {'<'}40 Pure manual |
+| Asset_Sedimentation | Asset sedimentation value | 80+ Distills to methodology/portfolio / 60-79 Partially reusable / 40-59 Hard to reuse / {'<'}40 Pure consumption |
+
+**Weighted formula**: `Tech×0.15 + Product×0.20 + Leverage×0.20 + AI×0.30 + Asset×0.15`
+
+**Red_Flags mechanism**: When detecting pure linear labor, extreme involution, or lack of product decision power, score capped at 60.
+
+## Field Schema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| 公司 | Text | Company name |
+| 职位名称 | Text | Job title |
+| 城市 | Text | Work city |
+| 业务线 | Text | Business line |
+| 硬标签 | Text | Core hard skills (max 5) |
+| 红旗项 | Text | Warning signals (max 3) |
+| 技术视野 | Number | Tech vision 0-100 |
+| 产品主导力 | Number | Product dominance 0-100 |
+| 高杠杆投入率 | Number | Leverage ratio 0-100 |
+| AI杠杆 | Number | AI leverage 0-100 |
+| 资产沉淀度 | Number | Asset sedimentation 0-100 |
+| 综合匹配度 | Number | Composite match 1-100 |
+| 打击策略 | Text | Differentiation strategy |
+| 核心短板 | Text | Critical gap analysis |
+| 投递网址 | Text | Application URL |
+| 投递状态 | Select | Not applied / Resume rejected / Resume passed / Round 1 passed / Round 2 passed / Round 3 passed |
+| 备注 | Text | Manual notes |
+| 创建时间 | DateTime | Created at |
+| 原始输入 | Text | Raw input (message/image name) |
+
+## Usage
+
+### Manual Mode
+
+Send to the bot:
+- `https://lagou.com/wn/jobs/12345678` → Parse webpage
+- Multiple URLs in one message → Parse individually
+- Rich text messages (links + images mixed) → All recognized
+- Any recruitment page screenshot → Vision recognition + auto-generate search link
+- Plain chat → Reply "no URL, skip"
+- LLM determines unrelated to recruitment → Reply "skip" with reason
+- Duplicate URL → Auto-dedup, reply "already stored"
+
+### Automatic Mode
+
+Runs automatically after startup:
+- Immediate scan on startup
+- Daily scheduled scan (default 9 AM)
+- Multiple data sources: Nowcoder direct crawl (no dependencies), Boss Zhipin (requires Playwright)
+- 70+ score positions stored to Lark table + push notification cards to configured group
+
+## Links
+
+[GitHub](https://github.com/khlilo-dve/intern-radar)

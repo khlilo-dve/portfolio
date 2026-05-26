@@ -1,0 +1,162 @@
+---
+title: "Op-Sim v1.0 (Synthetic Data Engine)"
+date: "2026-02-15"
+summary: "Enterprise operation behavior simulation engine based on Markov Chain state machines"
+stack: ["Rust", "Serde", "Rand", "HPC"]
+github: "https://github.com/khlilo-dve/substantive-op-mock"
+---
+
+> Generate synthetic business logs with realistic causal logic using Markov Chain state machines and a playbook DSL.
+
+## What Is This
+
+When building IDS/SIEM rules, running stress tests, or constructing AI training datasets, you don't just need random data — you need data that **looks like a real human did it**.
+
+Two common approaches to fake data have obvious flaws:
+
+- **Pure random**: Timestamps uniformly distributed across 24 hours, all actions equally probable, zero causal relationships
+- **Fixed scripts**: Identical output every run, zero variance
+
+Op-Sim's solution is a **playbook-driven Markov Chain state machine**. You define in YAML "what operations employees at this company perform and how they transition between them," and the engine generates log sequences following human circadian rhythms with realistic workflow patterns.
+
+A real employee session looks like this:
+
+```
+09:23:15  USER_LOGIN       login_method=sso
+09:38:15  VIEW_DASHBOARD   page_load_ms=842
+09:51:15  ORDER_SUBMIT     order_id=ORD-67681, amount=922.06, currency=EUR
+10:04:15  PAYMENT_CONFIRM  transaction_id=3fdc..., method=alipay
+10:19:15  USER_LOGOUT      session_duration_s=3360
+```
+
+Each session closes from `LOGIN` to `LOGOUT`, timestamps are monotonically increasing, and actions have logical dependencies.
+
+## Use Cases
+
+- **IDS/SIEM training data**: Provide realistic normal traffic baselines for threat detection systems
+- **Stress testing**: Replace ab/wrk's uniform pressure with request sequences matching real business distributions
+- **AI synthetic data**: Real business logs contain PII; synthetic data preserves statistical features without sensitive information
+- **Alert rule validation**: Verify alert sensitivity for patterns like "ADMIN_EXPORT followed by LOGOUT" without touching production data
+
+## Core Mechanisms
+
+### Markov Chain State Machine
+
+Each `ActionRule` configures `transitions`, defining probability weights from the current state to the next:
+
+```
+USER_LOGIN ──75%──→ VIEW_DASHBOARD ──35%──→ ORDER_SUBMIT ──80%──→ PAYMENT_CONFIRM
+                          │                      │                       │
+                         20%                    15%                     35%
+                          ↓                      ↓                       ↓
+                     USER_LOGOUT           REFUND_REQUEST           USER_LOGOUT
+```
+
+Empty `transitions: {}` marks a terminal state — the session ends automatically.
+
+### Circadian Time Trap
+
+Operation times aren't uniformly distributed across 0–24 hours. They're weighted by time period:
+
+| Period | Type | Weight |
+|--------|------|--------|
+| 00–08 | Night | 1 |
+| 09–11 | Morning peak | 50 |
+| 12–13 | Lunch break | 5 |
+| 14–17 | Afternoon peak | 60 |
+| 18–21 | Overtime | 10 |
+| 22–23 | Late night | 1 |
+
+Within a session, each operation间隔 2–30 minutes (simulating screen reading/typing delays), with monotonically increasing timestamps.
+
+### Payload DSL
+
+Business fields for each action are defined in YAML with a one-line spec string:
+
+| Syntax | Output |
+|--------|--------|
+| `hex:16` | 16-byte random hex |
+| `float:10.0:9999.0` | Range float, 2 decimal places |
+| `int:1:20` | Range integer |
+| `choice:USD:CNY:EUR` | Random selection |
+| `order_id` | `ORD-{5-digit random}` |
+
+Output uses `#[serde(flatten)]` — all fields flat at JSON top level, no nesting, directly compatible with ELK / Loki.
+
+## Quick Start
+
+```bash
+cargo build --release
+```
+
+**Write a playbook** (`playbook.yaml`):
+
+```yaml
+company_name: "SilkRoute Global Commerce"
+employee_count: 320
+ip_subnet: "10.12.8"
+date_range:
+  start: "2026-03-10"
+  end: "2026-03-14"
+
+actions:
+  - name: "USER_LOGIN"
+    weight: 100
+    payload_fields:
+      session_id: "hex:16"
+      login_method: "choice:password:sso:oauth"
+    transitions:
+      VIEW_DASHBOARD: 75
+      USER_LOGOUT: 5
+
+  - name: "ORDER_SUBMIT"
+    weight: 0
+    payload_fields:
+      order_id: "order_id"
+      payment_amount: "float:10.0:9999.0"
+      currency: "choice:USD:CNY:EUR"
+    transitions:
+      PAYMENT_CONFIRM: 80
+      USER_LOGOUT: 20
+
+  - name: "USER_LOGOUT"
+    weight: 0
+    payload_fields:
+      session_duration_s: "int:60:28800"
+    transitions: {}
+```
+
+**Run**:
+
+```bash
+# Simulate 200 employee sessions (default)
+./target/release/op-sim
+
+# Custom parameters
+./target/release/op-sim --playbook playbook.yaml --count 500 --output logs/march.log
+```
+
+**Sample output** (JSONL, one per line, flat fields):
+
+```json
+{"timestamp":"2026-03-13 09:23:15","employee_id":"EMP-214","ip_address":"10.12.8.86","action_type":"USER_LOGIN","login_method":"oauth","session_id":"aa445d6584279504"}
+{"timestamp":"2026-03-13 09:38:15","employee_id":"EMP-214","ip_address":"10.12.8.86","action_type":"ORDER_SUBMIT","currency":"EUR","order_id":"ORD-67681","payment_amount":922.06}
+{"timestamp":"2026-03-13 09:51:15","employee_id":"EMP-214","ip_address":"10.12.8.86","action_type":"USER_LOGOUT","session_duration_s":1680}
+```
+
+Logs within the same session share `employee_id` and `ip_address`, allowing full operation trajectory reconstruction.
+
+## Project Structure
+
+```
+src/
+├── main.rs        CLI entry (clap)
+├── models.rs      Data structures: BusinessLog / Playbook / ActionRule
+├── generator.rs   State machine engine / Time trap / DSL parser
+└── writer.rs      BufWriter JSONL append writer
+playbook.yaml      Cross-border e-commerce example playbook
+```
+
+## Links
+
+[GitHub](https://github.com/khlilo-dve/substantive-op-mock)

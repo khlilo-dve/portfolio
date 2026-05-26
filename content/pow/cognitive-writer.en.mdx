@@ -1,0 +1,75 @@
+---
+title: "Cognitive Writer v2.0.2 (AI Writing Engine)"
+date: "2026-03-16"
+summary: "AI article generation CLI for WeChat Official Accounts"
+stack: ["Rust", "Tokio", "Clap", "LLM API"]
+github: "https://github.com/khlilo-dve/cognitive-writer"
+---
+
+## The Problem: AI Writes Like Everyone Else
+
+The biggest issue with AI writing isn't that it can't write — it's that everything sounds like the same template. No your voice, no your rhythm, no your thinking.
+
+More AI writing tools are emerging, but they all share the same flaw: generic output with zero personal identity. What you need isn't "AI to write for you" but "AI to write as you."
+
+## Core Architecture: Skeleton-Render Dual Channel
+
+采用 **Skeleton-Render (CoT) dual-channel architecture** to solve the logic collapse and repetition problem in single-pass long-form generation.
+
+```
+                         Pass 1 (Skeleton)          Pass 2 (Render)
+inputs/idea_01.md ──┬─→ OUTLINE_SYSTEM_PROMPT ─→ outline ──┐
+                    │                                       ├─→ style prompt ─→ Markdown ─┬─→ outputs/{slug}_v{N}.md
+styles/*.md ────────┘───────────────────────────────────────┘                              ├─→ outputs/{slug}_v{N}.html
+                                                                                          └─→ System clipboard (rich text)
+```
+
+**Pass 1 — Skeleton**: LLM generates a 300-500 word structured outline with core arguments, supporting material directions, and paragraph transitions.
+
+**Pass 2 — Render**: Outline + raw material + style prompt are concatenated, and LLM expands the full text paragraph by paragraph following the skeleton.
+
+This separation controls information density per call — LLMs produce higher quality on shorter texts.
+
+## Three Subcommands
+
+### `generate` — Article Generation
+
+Select style template → Load material → Dual-channel LLM calls → Triple output (Markdown archive + WeChat HTML + clipboard injection).
+
+### `learn` — Style Reverse Learning
+
+Input an article URL, fetch content via Jina Reader, LLM analyzes writing style across 10 dimensions (overall style positioning, title strategy, opening pattern, paragraph rhythm, sentence characteristics, argumentation methods, emotional tone, closing strategy, word preferences, reader interaction style), outputs a reusable system prompt.
+
+### `refine` — Local Redraw
+
+Insert `<AI_EDIT instruction="...">` markers in Markdown. The tool automatically detects them and calls LLM to rewrite the marked text while maintaining style consistency with surrounding context. Ideal for polishing paragraphs, not rewriting entire articles.
+
+## Output: WeChat-Compatible Rich Text
+
+Generated Markdown is automatically converted to WeChat-compatible HTML and injected into the system clipboard via CF_HTML protocol. One-click paste into the WeChat editor on WSL2, Linux, and Windows.
+
+Cross-platform clipboard injection priority:
+
+| Priority | Environment | Method |
+|----------|-------------|--------|
+| 1 | WSL2 | PowerShell CF_HTML (bypasses .NET UTF-16 encoding, fixes Chinese garbled text) |
+| 2 | Linux X11 | `xclip -selection clipboard -t text/html` |
+| 3 | Linux Wayland | `wl-copy --type text/html` |
+
+## Style Template System
+
+Each `.md` file is a complete LLM system prompt that controls article generation style.
+
+`wechat_base.md` core rules:
+- **Anti-AI checklist**: Banned phrases like "as we all know", "undeniably"; no "three-parallel + elevation" formula
+- **Person**: First person "I" primarily
+- **Sentence length**: Short为主 (10-20 chars), occasional long sentences for rhythm
+- **Structure**: Opening insight → One-sentence concept definition → 2-3 arguments with concrete examples → Minimal actionable takeaway
+
+## AI Collaboration
+
+Built from scratch with Claude Code. The core design revolves around understanding model capabilities: dual-channel separation is information density control, style learning is automated few-shot prompt extraction, and local redraw leverages the model's ability to follow contextual markers.
+
+## Links
+
+[GitHub](https://github.com/khlilo-dve/cognitive-writer)

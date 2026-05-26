@@ -1,4 +1,4 @@
-import { getAllSlugs, getArticle } from "@/lib/mdx";
+import { getAllSlugs, getArticle, getArticleEnglish } from "@/lib/mdx";
 import { ProjectLayout } from "@/app/components/project-layout";
 import { notFound } from "next/navigation";
 
@@ -26,16 +26,19 @@ export default async function ProjectDetailPage({
   if (!slugs.includes(slug)) notFound();
 
   const article = getArticle("pow", slug);
+  const articleEn = getArticleEnglish("pow", slug);
 
   return (
     <ProjectLayout
       title={article.title}
+      titleEn={articleEn?.title}
       date={article.date}
       summary={article.summary}
       stack={article.stack}
       github={article.github}
       demo={article.demo}
       content={article.content}
+      contentEn={articleEn?.content}
     />
   );
 }

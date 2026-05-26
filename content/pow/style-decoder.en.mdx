@@ -1,0 +1,57 @@
+---
+title: "Style Decoder v1.0"
+date: "2026-03-20"
+summary: "Reverse-engineer any writing style into a reusable AI System Prompt"
+stack: ["Rust", "Tokio", "Reqwest", "LLM API"]
+github: "https://github.com/khlilo-dve/style-decoder"
+---
+
+> Stop prompting blind. Steal the cognitive structure.
+
+## The Problem
+
+Tired of AI-generated articles that all sound the same — "as we all know", "it's worth noting", "undeniably"?
+
+The magic of great writing was never about fancy vocabulary. It's about the underlying **cognitive architecture**, **emotional tone**, and **rhythmic flow**.
+
+`style-decoder` is a minimalist CLI tool written in pure Rust. In 3 seconds, it穿透 any website's dynamic rendering and reverse-engineers any top-tier article into a **10-dimension System Prompt** that LLMs can directly understand.
+
+This is a physical cheat code for super-individuals in the AI era.
+
+## Core Capabilities
+
+- **Deep Fetch**: Powered by Jina Reader API, bypassing complex anti-scraping mechanisms to extract clean text.
+- **10-Dimension Reverse Analysis**: Automatically analyzes the target article's logical skeleton, emotional tone, parallelism frequency, metaphor habits, and 7 other core dimensions.
+- **One-Click Weaponization**: The output isn't an analysis report — it's a **System Prompt ready to feed into any LLM**.
+- **Geek-Grade Performance**: Compiled Rust, single binary, zero bloated dependencies.
+
+## Quick Start
+
+No coding knowledge required. No Rust environment setup needed:
+
+1. **Download**: Get the latest binary from [Releases](https://github.com/khlilo-dve/style-decoder/releases).
+2. **Configure**: Create a `.env` file with your LLM API credentials:
+   ```env
+   API_KEY=sk-or-v1-your-api-key
+   BASE_URL=https://openrouter.ai/api/v1
+   MODEL=anthropic/claude-3-5-sonnet-20241022
+   ```
+3. **Run**: Execute with the article URL:
+   ```bash
+   ./style-decoder https://mp.weixin.qq.com/s/some-viral-article
+   ```
+
+The tool outputs a deeply structured Prompt in the terminal and asks if you want to save it as a `.md` file.
+
+## Beyond the Tool
+
+`style-decoder` is just a **single probe module** in my personal automation workflow.
+
+I've built a complete **AI cognitive content generation engine** that supports:
+- Batch processing of multiple inspiration sources (concurrent)
+- CoT dual-channel rendering: logic topology outline first, then dense content filling
+- Automated typesetting and clipboard injection
+
+## Links
+
+[GitHub](https://github.com/khlilo-dve/style-decoder)

@@ -17,6 +17,7 @@ my-website/
 │   │   ├── hero.tsx                # 首页宣言文案
 │   │   ├── section-wrapper.tsx     # 通用页面容器
 │   │   ├── article-layout.tsx      # 文章详情页布局（含双语支持）
+│   │   ├── project-layout.tsx      # 项目详情页布局（含双语 + GitHub/Stack 标签）
 │   │   ├── bilingual-body.tsx      # 双语切换交互组件
 │   │   └── mdx-content.tsx         # MDX 渲染器
 │   ├── signal/
@@ -25,15 +26,18 @@ my-website/
 │   ├── node/
 │   │   ├── page.tsx                # Node 笔记列表页
 │   │   └── [slug]/page.tsx         # Node 笔记详情页（动态路由）
-│   ├── pow/page.tsx                # PoW 项目展示页
+│   ├── pow/
+│   │   ├── page.tsx                # PoW 项目列表页（卡片可点击跳转详情）
+│   │   └── [slug]/page.tsx         # PoW 项目详情页（动态路由）
 │   └── beacon/page.tsx             # Beacon 个人信标页
 ├── content/
 │   ├── signal/                     # Signal 文章 MDX 文件
-│   └── node/                       # Node 笔记 MDX 文件
+│   ├── node/                       # Node 笔记 MDX 文件
+│   └── pow/                        # PoW 项目详情 MDX 文件（中文 + 英文）
 ├── public/
 │   └── wechat-qrcode.png           # 微信公众号二维码
 ├── lib/
-│   └── mdx.ts                      # MDX 解析工具库
+│   └── mdx.ts                      # MDX 解析工具库（支持 github/demo/stack 字段）
 └── tools/
     └── article-cli/                # Rust CLI：自动化创建新文章（见下文）
 ```
@@ -273,10 +277,13 @@ English content here...
 
 ## 五、添加 PoW 项目
 
+### 步骤 1：在列表页注册
+
 打开 `app/pow/page.tsx`，在 `projects` 数组中添加：
 
 ```typescript
 {
+  slug: "my-project",          // 必须与 MDX 文件名一致
   name: "项目名称",
   description: "一句话描述",
   stack: ["Rust", "TypeScript"],
@@ -284,6 +291,47 @@ English content here...
   demo: "https://demo.example.com",   // 没有就写 null
 },
 ```
+
+### 步骤 2：创建详情页 MDX（中英文）
+
+在 `content/pow/` 下创建两个文件：
+
+```
+content/pow/my-project.mdx       ← 中文版（必须）
+content/pow/my-project.en.mdx    ← 英文版（可选）
+```
+
+中文版 frontmatter 示例：
+
+```markdown
+---
+title: "项目名称 v1.0"
+date: "2026-03-16"
+summary: "一句话摘要"
+stack: ["Rust", "Tokio"]
+github: "https://github.com/khlilo-dve/项目名"
+---
+
+## 痛点
+
+这个工具解决了什么真实存在的繁琐问题？
+
+## 核心设计
+
+项目的核心机制是什么？
+
+## 项目链接
+
+[GitHub](https://github.com/khlilo-dve/项目名)
+```
+
+英文版 frontmatter 格式相同，标题和摘要用英文。正文用英文书写。
+
+系统会自动检测英文版是否存在：
+- **有** `.en.mdx` → 详情页右上角出现 `[ EN | ZH ]` 切换按钮
+- **没有** → 不显示切换按钮，正常展示中文
+
+详情页使用 `ProjectLayout` 组件，自动在标题下方显示技术栈标签和 GitHub/Demo 按钮。
 
 ---
 

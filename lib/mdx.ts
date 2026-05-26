@@ -9,6 +9,9 @@ export interface ArticleMeta {
   date: string;
   summary?: string;
   tags?: string[];
+  github?: string;
+  demo?: string;
+  stack?: string[];
 }
 
 export interface Article extends ArticleMeta {
@@ -68,6 +71,9 @@ export function getAllArticles(category: string): ArticleMeta[] {
       date: (data.date as string) ?? "",
       summary: data.summary as string | undefined,
       tags: data.tags as string[] | undefined,
+      github: data.github as string | undefined,
+      demo: data.demo as string | undefined,
+      stack: data.stack as string[] | undefined,
     };
   });
   return articles.sort(
@@ -85,6 +91,9 @@ export function getArticle(category: string, slug: string): Article {
     date: (data.date as string) ?? "",
     summary: data.summary as string | undefined,
     tags: data.tags as string[] | undefined,
+    github: data.github as string | undefined,
+    demo: data.demo as string | undefined,
+    stack: data.stack as string[] | undefined,
     content,
   };
 }
@@ -103,6 +112,9 @@ export function getArticleEnglish(
     date: (data.date as string) ?? "",
     summary: data.summary as string | undefined,
     tags: data.tags as string[] | undefined,
+    github: data.github as string | undefined,
+    demo: data.demo as string | undefined,
+    stack: data.stack as string[] | undefined,
     content,
   };
 }

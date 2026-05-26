@@ -1,0 +1,39 @@
+---
+title: "Cognitive Writer v2.0.2(AI Writing Engine)"
+date: "2026-03-16"
+summary: "面向微信公众号的 AI 文章生成 CLI 工具"
+stack: ["Rust", "Tokio", "Clap", "LLM API"]
+github: "https://github.com/khlilo-dve/cognitive-writer"
+---
+
+## 痛点：AI 生成的文章没人味
+
+公众号和博客写作的 AI 工具越来越多，但几乎所有工具都面临同一个问题：生成的文章千篇一律、缺乏个人辨识度。你需要的不是"AI 帮你写"，而是"AI 用你的风格写"。
+
+更深层的问题是：即使你有了 Style Decoder 逆向出的风格 prompt，手动把它塞进每次对话也很繁琐。需要一个工具把"风格学习 → 文章生成 → 格式输出 → 发布"这条链路自动化。
+
+## 三大子命令
+
+**`generate` — 骨架-渲染双通道**
+
+不是让 AI 一次性输出完整文章，而是分两步：先生成逻辑骨架（大纲），再按骨架逐段渲染正文。这种分离是为了控制单次生成的信息密度——AI 在处理短文本时质量更高。
+
+**`learn` — 风格逆向学习**
+
+输入一篇文章 URL，自动抓取正文并调用 LLM 分析写作风格，输出可复用的 system prompt。本质上是 Style Decoder 的轻量集成版。
+
+**`refine` — 局部重绘**
+
+在 Markdown 中插入 `<AI_EDIT instruction="...">` 标记，工具会自动识别并调用 LLM 重写标记内的文本，同时保持与上下文风格一致。适合精修段落而不是重写全文。
+
+## 输出：微信兼容富文本
+
+生成的 Markdown 自动转换为微信公众号兼容的 HTML 格式，并通过 CF_HTML 协议注入系统剪贴板。在 WSL2、Linux、Windows 三端都能一键粘贴到微信编辑器。
+
+## AI 协作过程
+
+用 Claude Code 协作开发，Rust 从零搭建 CLI 骨架。核心设计围绕对模型能力的理解展开：双通道分离是信息密度控制，风格学习是 few-shot prompt 的自动化提取，局部重绘利用了模型对上下文标记的遵循能力。
+
+## 项目链接
+
+[GitHub](https://github.com/khlilo-dve/cognitive-writer)

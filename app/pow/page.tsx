@@ -24,7 +24,7 @@ const projects: {
     description:
       "面向微信公众号的 AI 文章生成 CLI 工具。Rust 实现骨架-渲染双通道架构，支持风格逆向学习与局部重绘，一键生成微信兼容富文本。",
     stack: ["Rust", "Tokio", "Clap", "LLM API"],
-    github: null,
+    github: "https://github.com/khlilo-dve/cognitive-writer",
     demo: null,
   },
   {

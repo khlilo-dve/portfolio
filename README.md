@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# khlilo.xyz — 一个人的数字基建
 
-## Getting Started
+> 我的写作、项目、认知沉淀，全部托管在这一个地方。
 
-First, run the development server:
+**Live → [khlilo.xyz](https://khlilo.xyz)**
+
+---
+
+## 为什么要做这件事
+
+我写文章、做项目、记笔记——但这些东西散落在微信公众号、GitHub、Notion、各种草稿箱里。每次有人问我"你做过什么"，我得拼凑出一个临时的"作品集"。
+
+更深层的问题是：**作为一个独立开发者，我连自己的"门面"都没有，怎么让别人相信我能做出好的产品？**
+
+所以我决定从零搭建一个个人站——不是用模板套一个，而是用 AI 作为核心生产力，把它当成一个完整的产品来开发。
+
+---
+
+## 这个站做了什么
+
+四个栏目，四种内容形态：
+
+| 栏目 | 定位 | 内容 |
+|------|------|------|
+| `/Signal` | 认知沉淀 | 深度思考后的观点与方法论 |
+| `/Node` | 技术笔记 | 工程实践与底层原理的拆解 |
+| `/PoW` | 项目展示 | 已完成和进行中的工程项目 |
+| `/Beacon` | 个人信标 | 底层操作系统 & 运行原则 |
+
+核心特性：
+- **中英双语切换**：每篇文章支持 EN/ZH 一键切换，无需维护两套代码
+- **MDX 内容管线**：写 Markdown，自动渲染为带样式的页面
+- **自动化 CLI 工具**：Rust 编写的 `article-cli`，一条命令创建文章骨架并自动注册到列表页
+- **Vercel 一键部署**：git push 即上线，1-2 分钟全球 CDN 生效
+
+---
+
+## 我是怎么做出来的——AI 协作的全过程
+
+这不是一个"我写了代码"的故事。这是一个"我用 AI 当杠杆，一个人完成了从产品设计到部署上线"的故事。
+
+### 第一阶段：产品定义
+
+我先用自然语言跟 Claude 描述了我想做的事："一个有四个栏目的个人站，支持双语，要有开发者感的视觉风格。"
+
+Claude 给出了整体架构建议——Next.js + TailwindCSS + MDX 的技术选型，以及目录结构的设计。我在这个基础上做了调整：把 `/Signal` 和 `/Node` 分开（认知输出和技术笔记是两种不同的内容），加了 `/Beacon` 作为个人信标页。
+
+**关键判断**：AI 提供了 80% 的架构方案，但"四个栏目怎么分"、"视觉风格要什么调性"这些产品决策是我自己做的。AI 是执行者，不是决策者。
+
+### 第二阶段：核心开发
+
+在 Cursor 中用 Opus 4.6 模型协作开发。整个过程的协作模式：
+
+1. **我说需求**："首页要一个打字机效果的逐行渐入动画"
+2. **AI 写代码**：Framer Motion 的 motion 组件 + 逐行延迟动画
+3. **我验收调整**：动画太快了、间距不对、颜色太亮——这些细节 AI 无法自己判断
+
+最有意思的部分是**双语切换组件**的设计。我的需求是"点击切换语言，不需要刷新页面"。AI 第一版用了路由切换（每种语言一个 URL），我否掉了——我希望是同一个页面内的即时切换，用户体验更丝滑。最终的方案是通过 React state 控制 `display: none/block`，简单但有效。
+
+### 第三阶段：内容管线
+
+最难的部分不是写代码，而是**让内容维护变得足够简单**。
+
+我想要的效果是：写一篇 Markdown，放到对应目录，就能自动出现在网站上。不需要手动改代码、不需要注册路由。
+
+AI 帮我搭了 MDX 渲染管线——自动扫描 `content/` 目录下的 `.mdx` 文件，通过 frontmatter 读取标题、日期、标签，动态生成路由。后来我还让 AI 帮我写了一个 Rust CLI 工具（`article-cli`），一条命令就能创建新文章并自动注册到列表页。
+
+**这个工具本身就是"AI × 产品思维"的产物**：AI 负责写 Rust 代码，我负责定义"创建一篇文章需要哪些元数据"、"注册到列表页的格式是什么"。
+
+### 第四阶段：部署与迭代
+
+部署到 Vercel 后，每次修改只需要 `git push`，CI/CD 自动构建上线。这个流程本身也是 AI 帮我配置的。
+
+后续的迭代包括：
+- 加了微信公众号二维码浮窗
+- 给 PoW 页面加了项目卡片
+- 给 Beacon 页面设计了"个人信标"的数据结构
+
+每一次迭代都是同样的模式：**我说要什么 → AI 写代码 → 我验收 → 调整 → 上线**。
+
+---
+
+## 技术栈
+
+| 层级 | 选型 | 理由 |
+|------|------|------|
+| 框架 | Next.js 16 | App Router + 静态导出，部署友好 |
+| 样式 | TailwindCSS 4 | 原子化 CSS，暗色主题只需几行配置 |
+| 动效 | Framer Motion | 声明式动画 API，渐入/切换效果开箱即用 |
+| 内容 | MDX + next-mdx-remote | Markdown 写内容，React 组件做交互 |
+| 工具 | Rust CLI (article-cli) | 自动化创建文章 + 注册列表页 |
+| 部署 | Vercel | git push 自动部署，零配置 |
+| 分析 | Vercel Analytics | 轻量访问统计，不影响性能 |
+
+---
+
+## 开发体验
 
 ```bash
+# 本地开发
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 浏览器打开 http://localhost:3000
+
+# 创建新文章（需要先编译 article-cli）
+./tools/article-cli/target/release/article-cli new
+
+# 部署
+git push  # Vercel 自动构建上线
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 这个项目教会我的
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+做这个站的过程，本质上是在回答一个问题：**一个人 + AI，能做到什么程度？**
 
-## Learn More
+答案是：从产品设计、前端开发、内容管线、到部署运维，一个人确实可以完成。但前提是——你需要清楚自己要什么，AI 才能帮你执行到位。
 
-To learn more about Next.js, take a look at the following resources:
+AI 不会替你做产品决策，但它能让你的决策以 10 倍速度落地。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

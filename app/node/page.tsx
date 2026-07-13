@@ -11,14 +11,13 @@ const notes: {
   date: string;
   preview: string;
 }[] = [
-  // 新增笔记格式：
-  // {
-  //   slug: "your-file-name",
-  //   title: "文章标题",
-  //   tags: ["Rust", "ZK"],
-  //   date: "2026.03.08",
-  //   preview: "摘要文字……",
-  // },
+  {
+    slug: "cloudflare-ai-temp-accounts",
+    title: "不再让AI模仿人——Cloudflare 开辟AI原生身份代理账户的新纪元",
+    tags: ["Cloudflare", "AI Agent", "Deployment"],
+    date: "2026.07.08",
+    preview: "Cloudflare 推出临时账户系统，首次在公有云底座上为 AI 颁发合法的临时身份证，标志着互联网从人本位向机本位的过渡。",
+  },
 ];
 
 function TagBadge({ label }: { label: string }) {

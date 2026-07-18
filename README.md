@@ -29,9 +29,9 @@
 
 核心特性：
 - **中英双语切换**：每篇文章和项目详情页支持 EN/ZH 一键切换，无需维护两套代码
-- **MDX 内容管线**：写 Markdown，自动渲染为带样式的页面
+- **MDX 内容管线**：写 Markdown 放到 `content/` 对应目录，列表页自动扫描发现，无需手动注册路由
 - **PoW 项目详情页**：每个项目标题可点击进入详情页，内容来自各项目 GitHub 的原始 README，支持双语切换
-- **自动化 CLI 工具**：Rust 编写的 `article-cli`，一条命令创建文章骨架并自动注册到列表页
+- **自动化 CLI 工具**：Rust 编写的 `article-cli`，一条命令创建文章骨架（含 frontmatter 和双语版本）
 - **Vercel 一键部署**：git push 即上线，1-2 分钟全球 CDN 生效
 
 ---
@@ -64,9 +64,9 @@ Claude 给出了整体架构建议——Next.js + TailwindCSS + MDX 的技术选
 
 我想要的效果是：写一篇 Markdown，放到对应目录，就能自动出现在网站上。不需要手动改代码、不需要注册路由。
 
-AI 帮我搭了 MDX 渲染管线——自动扫描 `content/` 目录下的 `.mdx` 文件，通过 frontmatter 读取标题、日期、标签，动态生成路由。后来我还让 AI 帮我写了一个 Rust CLI 工具（`article-cli`），一条命令就能创建新文章并自动注册到列表页。
+AI 帮我搭了 MDX 渲染管线——自动扫描 `content/` 目录下的 `.mdx` 文件，通过 frontmatter 读取标题、日期、标签，列表页和详情页都从同一个数据源驱动，无需手动注册。后来我还让 AI 帮我写了一个 Rust CLI 工具（`article-cli`），一条命令就能创建新文章的 MDX 骨架（含 frontmatter 和可选双语版本）。
 
-**这个工具本身就是"AI × 产品思维"的产物**：AI 负责写 Rust 代码，我负责定义"创建一篇文章需要哪些元数据"、"注册到列表页的格式是什么"。
+**这个工具本身就是"AI × 产品思维"的产物**：AI 负责写 Rust 代码，我负责定义"创建一篇文章需要哪些元数据"。
 
 ### 第四阶段：部署与迭代
 
@@ -88,8 +88,8 @@ AI 帮我搭了 MDX 渲染管线——自动扫描 `content/` 目录下的 `.mdx
 | 框架 | Next.js 16 | App Router + 静态导出，部署友好 |
 | 样式 | TailwindCSS 4 | 原子化 CSS，暗色主题只需几行配置 |
 | 动效 | Framer Motion | 声明式动画 API，渐入/切换效果开箱即用 |
-| 内容 | MDX + next-mdx-remote | Markdown 写内容，React 组件做交互 |
-| 工具 | Rust CLI (article-cli) | 自动化创建文章 + 注册列表页 |
+| 内容 | MDX + gray-matter + next-mdx-remote | Markdown 写内容，frontmatter 自动解析，列表页零配置发现 |
+| 工具 | Rust CLI (article-cli) | 交互式创建文章 MDX 骨架（含双语版本） |
 | 部署 | Vercel | git push 自动部署，零配置 |
 | 分析 | Vercel Analytics | 轻量访问统计，不影响性能 |
 

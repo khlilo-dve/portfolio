@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { MdxContent } from "./mdx-content";
 import { BilingualBody } from "./bilingual-body";
+import { TagBadge } from "./tag-badge";
 
 interface ArticleLayoutProps {
   title: string;
@@ -12,27 +13,6 @@ interface ArticleLayoutProps {
   backLabel: string;
   content: string;
   contentEn?: string;
-}
-
-function Tags({ tags }: { tags?: string[] }) {
-  if (!tags || tags.length === 0) return null;
-  return (
-    <div className="flex gap-2">
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className="rounded px-2 py-0.5 font-mono text-[11px]"
-          style={{
-            border: "1px solid rgba(255,255,255,0.1)",
-            backgroundColor: "rgba(255,255,255,0.03)",
-            color: "rgba(255,255,255,0.4)",
-          }}
-        >
-          {tag}
-        </span>
-      ))}
-    </div>
-  );
 }
 
 export function ArticleLayout({
@@ -72,7 +52,13 @@ export function ArticleLayout({
             >
               {date}
             </span>
-            <Tags tags={tags} />
+            {tags && tags.length > 0 && (
+              <div className="flex gap-2">
+                {tags.map((tag) => (
+                  <TagBadge key={tag} label={tag} />
+                ))}
+              </div>
+            )}
           </div>
           <div
             className="mt-6 h-px"

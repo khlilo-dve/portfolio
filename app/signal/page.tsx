@@ -1,33 +1,12 @@
-"use client";
-
 import { SectionWrapper, SectionHeader } from "../components/section-wrapper";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import Link from "next/link";
-
-const articles: { slug: string; date: string; title: string }[] = [
-  {
-    slug: "stop-learning-start-building",
-    date: "2026.04.16",
-    title: "你无法坚持一件事，是因为太喜欢“学习”",
-  },
-  { slug:"agi-era-survival-guide",date:"2026.04.07",title:"困扰所有人的AI时代焦虑和似乎无解的困境"},
-  {
-    slug: "what-abilities-should-you-cultivate",
-    date: "2026.03.27",
-    title: "你应该培养什么样的能力",
-  },
-  {
-    slug: "what-values-should-you-cultivate",
-    date: "2026.03.14",
-    title: "你应该培养什么样的价值？",
-  },
-  { slug: "producer-perspective", date: "2026.03.16", title: "你应该具备的视角——生产者视角" },
-  { slug: "why-not-tutoring", date: "2026.03.08", title: "我为什么不推荐大学生家教？" },
-];
+import { getAllArticles } from "@/lib/mdx";
 
 export default function SignalPage() {
+  const articles = getAllArticles("signal");
+
   return (
     <SectionWrapper>
       <SectionHeader
@@ -45,11 +24,10 @@ export default function SignalPage() {
       ) : (
         <div className="space-y-0">
           {articles.map((article, i) => (
-            <motion.div
+            <div
               key={article.slug}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.08 }}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${i * 0.08}s` }}
             >
               <Link
                 href={`/signal/${article.slug}`}
@@ -61,7 +39,7 @@ export default function SignalPage() {
                     className="font-mono text-xs xl:text-sm shrink-0"
                     style={{ color: "rgba(255,255,255,0.2)" }}
                   >
-                    {article.date}
+                    {article.date.replace(/-/g, ".")}
                   </span>
                   <span
                     className="text-sm xl:text-base transition-colors"
@@ -76,17 +54,15 @@ export default function SignalPage() {
                   style={{ color: "#fff" }}
                 />
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       )}
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="mt-16 rounded-lg p-6"
+      <div
+        className="mt-16 rounded-lg p-6 animate-fade-in"
         style={{
+          animationDelay: "0.3s",
           border: "1px solid rgba(255,255,255,0.1)",
           backgroundColor: "rgba(255,255,255,0.02)",
         }}
@@ -123,7 +99,7 @@ export default function SignalPage() {
             </p>
           </div>
         </div>
-      </motion.div>
+      </div>
     </SectionWrapper>
   );
 }

@@ -13,7 +13,16 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const article = getArticle("node", slug);
-  return { title: `${article.title} — khlilo` };
+  return {
+    title: `${article.title} — khlilo`,
+    description: article.summary,
+    openGraph: {
+      title: `${article.title} — khlilo`,
+      description: article.summary,
+      type: "article",
+      siteName: "khlilo",
+    },
+  };
 }
 
 export default async function NodeArticlePage({

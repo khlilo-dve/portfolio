@@ -1,41 +1,11 @@
-"use client";
-
 import { SectionWrapper, SectionHeader } from "../components/section-wrapper";
-import { motion } from "framer-motion";
+import { TagBadge } from "../components/tag-badge";
 import Link from "next/link";
-
-const notes: {
-  slug: string;
-  title: string;
-  tags: string[];
-  date: string;
-  preview: string;
-}[] = [
-  {
-    slug: "cloudflare-ai-temp-accounts",
-    title: "不再让AI模仿人——Cloudflare 开辟AI原生身份代理账户的新纪元",
-    tags: ["Cloudflare", "AI Agent", "Deployment"],
-    date: "2026.07.08",
-    preview: "Cloudflare 推出临时账户系统，首次在公有云底座上为 AI 颁发合法的临时身份证，标志着互联网从人本位向机本位的过渡。",
-  },
-];
-
-function TagBadge({ label }: { label: string }) {
-  return (
-    <span
-      className="rounded px-2 py-0.5 font-mono text-[11px]"
-      style={{
-        border: "1px solid rgba(255,255,255,0.1)",
-        backgroundColor: "rgba(255,255,255,0.03)",
-        color: "rgba(255,255,255,0.4)",
-      }}
-    >
-      {label}
-    </span>
-  );
-}
+import { getAllArticles } from "@/lib/mdx";
 
 export default function NodePage() {
+  const articles = getAllArticles("node");
+
   return (
     <SectionWrapper>
       <SectionHeader
@@ -43,7 +13,7 @@ export default function NodePage() {
         subtitle="技术思考与笔记 — 对工程实践与底层原理的拆解"
       />
 
-      {notes.length === 0 ? (
+      {articles.length === 0 ? (
         <p
           className="py-12 text-center font-mono text-sm"
           style={{ color: "rgba(255,255,255,0.2)" }}
@@ -52,15 +22,14 @@ export default function NodePage() {
         </p>
       ) : (
         <div className="space-y-4">
-          {notes.map((note, i) => (
-            <motion.div
-              key={note.slug}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.08 }}
+          {articles.map((article, i) => (
+            <div
+              key={article.slug}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${i * 0.08}s` }}
             >
               <Link
-                href={`/node/${note.slug}`}
+                href={`/node/${article.slug}`}
                 className="group block rounded-lg p-5 transition-all"
                 style={{
                   border: "1px solid rgba(255,255,255,0.05)",
@@ -73,29 +42,33 @@ export default function NodePage() {
                       className="text-sm xl:text-base font-medium transition-colors"
                       style={{ color: "rgba(255,255,255,0.75)" }}
                     >
-                      {note.title}
+                      {article.title}
                     </h3>
-                    <p
-                      className="mt-2 text-xs xl:text-sm leading-relaxed line-clamp-2"
-                      style={{ color: "rgba(255,255,255,0.3)" }}
-                    >
-                      {note.preview}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {note.tags.map((tag) => (
-                        <TagBadge key={tag} label={tag} />
-                      ))}
-                    </div>
+                    {article.preview && (
+                      <p
+                        className="mt-2 text-xs xl:text-sm leading-relaxed line-clamp-2"
+                        style={{ color: "rgba(255,255,255,0.3)" }}
+                      >
+                        {article.preview}
+                      </p>
+                    )}
+                    {article.tags && article.tags.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {article.tags.map((tag) => (
+                          <TagBadge key={tag} label={tag} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <span
                     className="shrink-0 font-mono text-[11px]"
                     style={{ color: "rgba(255,255,255,0.18)" }}
                   >
-                    {note.date}
+                    {article.date.replace(/-/g, ".")}
                   </span>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       )}

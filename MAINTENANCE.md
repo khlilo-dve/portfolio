@@ -19,7 +19,12 @@ my-website/
 │   │   ├── article-layout.tsx      # 文章详情页布局（含双语支持）
 │   │   ├── project-layout.tsx      # 项目详情页布局（含双语 + GitHub/Stack 标签）
 │   │   ├── bilingual-body.tsx      # 双语切换交互组件
-│   │   └── mdx-content.tsx         # MDX 渲染器
+│   │   ├── mdx-content.tsx         # MDX 渲染器
+│   │   ├── tag-badge.tsx           # 标签徽章（共享）
+│   │   ├── lang-toggle.tsx         # 语言切换按钮（共享）
+│   │   └── x-logo.tsx              # X(Twitter) Logo SVG（共享）
+│   ├── hooks/
+│   │   └── use-bilingual.ts        # 双语状态 hook
 │   ├── signal/
 │   │   ├── page.tsx                # Signal 文章列表页
 │   │   └── [slug]/page.tsx         # Signal 文章详情页（动态路由）
@@ -52,7 +57,7 @@ my-website/
 
 1. 生成 `content/<signal|node>/<slug>.mdx`，带标准 frontmatter
 2. 可选生成 `<slug>.en.mdx` 英文版（共用日期/标签，标题与摘要独立）
-3. 在 `app/<signal|node>/page.tsx` 的索引数组首位登记条目（列表日期自动转 `YYYY.MM.DD`）
+3. ~~在 `app/<signal|node>/page.tsx` 的索引数组首位登记条目~~ **（已废弃）** 列表页现在通过 `lib/mdx.ts` 自动扫描 `content/` 目录，无需手动注册
 
 ### 首次构建
 
@@ -89,7 +94,7 @@ cargo build --release
 
 ### 失败兜底
 
-若因 `page.tsx` 结构被大幅改动而无法定位索引数组锚点，工具**不会触碰源文件**，会打印出应追加的字面量，手动粘贴到数组最前面即可。
+~~若因 `page.tsx` 结构被大幅改动而无法定位索引数组锚点，工具**不会触碰源文件**，会打印出应追加的字面量，手动粘贴到数组最前面即可。~~ **（已废弃）** 列表页现自动发现内容目录中的 MDX 文件，无需手动注册。工具创建 `.mdx` 文件后即完成工作。
 
 ### 工具不覆盖的场景
 
@@ -158,6 +163,8 @@ const lines = [
 ## 二、发布 Signal 认知文章
 
 > 推荐：使用上方「article-cli 自动化工具」一键完成。以下为手动步骤 / 理解底层模板用。
+>
+> 列表页会自动扫描 `content/signal/` 目录下的所有 `.mdx` 文件，无需手动注册。
 
 ### 步骤 1：创建 MDX 文件
 
@@ -189,29 +196,19 @@ summary: "一句话摘要"
 （代码块、表格、图片等 Markdown 语法均支持）
 ```
 
-### 步骤 2：在列表页注册文章
-
-打开 `app/signal/page.tsx`，在 `articles` 数组最前面添加一条：
-
-```typescript
-const articles = [
-  { slug: "my-new-article", date: "2026.03.08", title: "你的文章标题" },
-  // ... 已有文章
-];
-```
-
-> **slug 必须与文件名一致**（不含 `.mdx` 后缀）。
+> **slug 即文件名**（不含 `.mdx` 后缀），列表页会根据文件名自动生成链接。
 
 ### 删除文章
 
-1. 从 `articles` 数组中删掉对应条目
-2. 删除 `content/signal/` 下对应的 `.mdx` 文件（以及 `.en.mdx` 如果有）
+删除 `content/signal/` 下对应的 `.mdx` 文件（以及 `.en.mdx` 如果有）即可，列表页会自动反映。
 
 ---
 
 ## 三、发布 Node 技术笔记
 
 > 推荐：使用上方「article-cli 自动化工具」一键完成。以下为手动步骤 / 理解底层模板用。
+>
+> 列表页会自动扫描 `content/node/` 目录下的所有 `.mdx` 文件，无需手动注册。
 
 ### 步骤 1：创建 MDX 文件
 
@@ -223,24 +220,13 @@ title: "技术笔记标题"
 date: "2026-03-08"
 tags: ["Rust", "Systems"]
 summary: "一句话摘要"
+preview: "在列表卡片中显示的预览文字"
 ---
 
 正文内容...
 ```
 
-### 步骤 2：在列表页注册
-
-打开 `app/node/page.tsx`，在 `notes` 数组最前面添加：
-
-```typescript
-{
-  slug: "my-tech-note",
-  title: "技术笔记标题",
-  tags: ["Rust", "Systems"],
-  date: "2026.03.08",
-  preview: "前两行摘要文字……",
-},
-```
+> **slug 即文件名**（不含 `.mdx` 后缀），列表页会根据文件名自动生成链接。
 
 ---
 
@@ -277,22 +263,9 @@ English content here...
 
 ## 五、添加 PoW 项目
 
-### 步骤 1：在列表页注册
+> 列表页会自动扫描 `content/pow/` 目录下的所有 `.mdx` 文件，无需手动注册。
 
-打开 `app/pow/page.tsx`，在 `projects` 数组中添加：
-
-```typescript
-{
-  slug: "my-project",          // 必须与 MDX 文件名一致
-  name: "项目名称",
-  description: "一句话描述",
-  stack: ["Rust", "TypeScript"],
-  github: "https://github.com/khlilo-dve/项目名",
-  demo: "https://demo.example.com",   // 没有就写 null
-},
-```
-
-### 步骤 2：创建详情页 MDX（中英文）
+### 步骤 1：创建详情页 MDX（中英文）
 
 在 `content/pow/` 下创建两个文件：
 

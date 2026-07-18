@@ -1,5 +1,6 @@
 import { getAllSlugs, getArticle, getArticleEnglish } from "@/lib/mdx";
 import { ProjectLayout } from "@/app/components/project-layout";
+import { MdxContent } from "@/app/components/mdx-content";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
@@ -38,6 +39,11 @@ export default async function ProjectDetailPage({
   const article = getArticle("pow", slug);
   const articleEn = getArticleEnglish("pow", slug);
 
+  // Pre-render MDX content as server components so they can be
+  // safely consumed by the client-side ProjectLayout.
+  const zhBody = <MdxContent source={article.content} />;
+  const enBody = articleEn ? <MdxContent source={articleEn.content} /> : null;
+
   return (
     <ProjectLayout
       title={article.title}
@@ -47,8 +53,8 @@ export default async function ProjectDetailPage({
       stack={article.stack}
       github={article.github}
       demo={article.demo}
-      content={article.content}
-      contentEn={articleEn?.content}
+      zhBody={zhBody}
+      enBody={enBody}
     />
   );
 }

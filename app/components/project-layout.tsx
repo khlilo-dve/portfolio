@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowLeft, Github, ExternalLink } from "lucide-react";
-import { MdxContent } from "./mdx-content";
 import { TagBadge } from "./tag-badge";
 import { LangToggle } from "./lang-toggle";
 import { useBilingual } from "../hooks/use-bilingual";
@@ -15,8 +14,8 @@ interface ProjectLayoutProps {
   stack?: string[];
   github?: string;
   demo?: string;
-  content: string;
-  contentEn?: string;
+  zhBody: React.ReactNode;
+  enBody: React.ReactNode | null;
 }
 
 export function ProjectLayout({
@@ -27,11 +26,11 @@ export function ProjectLayout({
   stack,
   github,
   demo,
-  content,
-  contentEn,
+  zhBody,
+  enBody,
 }: ProjectLayoutProps) {
   const { lang, setLang } = useBilingual();
-  const hasEn = !!contentEn;
+  const hasEn = !!enBody;
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">
@@ -124,11 +123,11 @@ export function ProjectLayout({
       </header>
 
       <div style={{ display: lang === "zh" ? "block" : "none" }}>
-        <MdxContent source={content} />
+        {zhBody}
       </div>
       {hasEn && (
         <div style={{ display: lang === "en" ? "block" : "none" }}>
-          <MdxContent source={contentEn!} />
+          {enBody}
         </div>
       )}
     </section>

@@ -16,7 +16,7 @@ export default function PoWPage() {
       {projects.length === 0 ? (
         <p
           className="py-12 text-center font-mono text-sm"
-          style={{ color: "rgba(255,255,255,0.2)" }}
+          style={{ color: "var(--color-text-ghost)" }}
         >
           &gt;_ building...
         </p>
@@ -28,15 +28,15 @@ export default function PoWPage() {
               className="group rounded-lg p-5 transition-all animate-fade-in-up"
               style={{
                 animationDelay: `${i * 0.06}s`,
-                border: "1px solid rgba(255,255,255,0.05)",
-                backgroundColor: "rgba(255,255,255,0.01)",
+                border: "1px solid var(--color-border-dim)",
+                backgroundColor: "var(--color-bg-surface)",
               }}
             >
               <div className="flex items-start justify-between">
                 <Link
                   href={`/pow/${project.slug}`}
                   className="font-mono text-sm xl:text-base font-medium transition-colors hover:opacity-80"
-                  style={{ color: "rgba(255,255,255,0.75)" }}
+                  style={{ color: "var(--color-text-body)" }}
                 >
                   {project.title}
                 </Link>
@@ -45,7 +45,7 @@ export default function PoWPage() {
                     <a
                       href={project.github}
                       className="transition-opacity hover:opacity-70"
-                      style={{ color: "rgba(255,255,255,0.2)" }}
+                      style={{ color: "var(--color-text-ghost)" }}
                       aria-label="GitHub"
                     >
                       <Github size={14} />
@@ -55,7 +55,7 @@ export default function PoWPage() {
                     <a
                       href={project.demo}
                       className="transition-opacity hover:opacity-70"
-                      style={{ color: "rgba(255,255,255,0.2)" }}
+                      style={{ color: "var(--color-text-ghost)" }}
                       aria-label="Demo"
                     >
                       <ExternalLink size={14} />
@@ -67,7 +67,7 @@ export default function PoWPage() {
               {project.summary && (
                 <p
                   className="mt-2 text-xs xl:text-sm"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
+                  style={{ color: "var(--color-text-subtle)" }}
                 >
                   {project.summary}
                 </p>
@@ -80,9 +80,9 @@ export default function PoWPage() {
                       key={tech}
                       className="rounded px-2 py-0.5 font-mono text-[10px]"
                       style={{
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        backgroundColor: "rgba(255,255,255,0.02)",
-                        color: "rgba(255,255,255,0.3)",
+                        border: "1px solid var(--color-border-subtle)",
+                        backgroundColor: "var(--color-bg-surface-raised)",
+                        color: "var(--color-text-ghost)",
                       }}
                     >
                       {tech}

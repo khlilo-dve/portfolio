@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Github, Menu, X } from "lucide-react";
 import { XLogo } from "./x-logo";
+import { ThemeToggle } from "./theme-toggle";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,15 +23,15 @@ export function Header() {
     <header
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl"
       style={{
-        backgroundColor: "rgba(0,0,0,0.7)",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        backgroundColor: "var(--color-bg-header)",
+        borderBottom: "1px solid var(--color-border-subtle)",
       }}
     >
       <div className="mx-auto flex h-16 max-w-4xl xl:max-w-5xl 2xl:max-w-6xl items-center justify-between px-6 xl:px-8">
         <Link
           href="/"
           className="font-mono text-sm tracking-widest transition-colors"
-          style={{ color: "rgba(255,255,255,0.8)" }}
+          style={{ color: "var(--color-text-body)" }}
         >
           khlilo
         </Link>
@@ -44,8 +45,8 @@ export function Header() {
               style={{
                 color:
                   pathname === link.href
-                    ? "#ffffff"
-                    : "rgba(255,255,255,0.5)",
+                    ? "var(--color-text-primary)"
+                    : "var(--color-text-muted)",
               }}
             >
               {link.label}
@@ -59,7 +60,7 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className="transition-opacity hover:opacity-80"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "var(--color-text-subtle)" }}
           >
             <Github size={16} />
           </a>
@@ -68,14 +69,15 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className="transition-opacity hover:opacity-80"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "var(--color-text-subtle)" }}
           >
             <XLogo size={16} />
           </a>
+          <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="ml-2 md:hidden transition-opacity hover:opacity-80"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            style={{ color: "var(--color-text-muted)" }}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -92,8 +94,8 @@ export function Header() {
             transition={{ duration: 0.2 }}
             className="overflow-hidden backdrop-blur-xl md:hidden"
             style={{
-              backgroundColor: "rgba(0,0,0,0.92)",
-              borderTop: "1px solid rgba(255,255,255,0.05)",
+              backgroundColor: "var(--color-bg-mobile-nav)",
+              borderTop: "1px solid var(--color-border-dim)",
             }}
           >
             <div className="flex flex-col px-6 py-4">
@@ -106,8 +108,8 @@ export function Header() {
                   style={{
                     color:
                       pathname === link.href
-                        ? "#ffffff"
-                        : "rgba(255,255,255,0.5)",
+                        ? "var(--color-text-primary)"
+                        : "var(--color-text-muted)",
                   }}
                 >
                   {link.label}

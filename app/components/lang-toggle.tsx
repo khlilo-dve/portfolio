@@ -10,8 +10,8 @@ export function LangToggle({ lang, setLang }: LangToggleProps) {
     <div
       className="flex items-center rounded-md font-mono text-[11px]"
       style={{
-        border: "1px solid rgba(255,255,255,0.1)",
-        backgroundColor: "rgba(255,255,255,0.02)",
+        border: "1px solid var(--color-border-default)",
+        backgroundColor: "var(--color-bg-surface-raised)",
       }}
     >
       <button
@@ -20,10 +20,10 @@ export function LangToggle({ lang, setLang }: LangToggleProps) {
         style={{
           color:
             lang === "en"
-              ? "rgba(255,255,255,0.9)"
-              : "rgba(255,255,255,0.3)",
+              ? "var(--color-text-heading)"
+              : "var(--color-text-ghost)",
           backgroundColor:
-            lang === "en" ? "rgba(255,255,255,0.08)" : "transparent",
+            lang === "en" ? "var(--color-bg-active)" : "transparent",
         }}
       >
         EN
@@ -32,7 +32,7 @@ export function LangToggle({ lang, setLang }: LangToggleProps) {
         style={{
           width: "1px",
           height: "14px",
-          backgroundColor: "rgba(255,255,255,0.1)",
+          backgroundColor: "var(--color-border-default)",
         }}
       />
       <button
@@ -41,10 +41,10 @@ export function LangToggle({ lang, setLang }: LangToggleProps) {
         style={{
           color:
             lang === "zh"
-              ? "rgba(255,255,255,0.9)"
-              : "rgba(255,255,255,0.3)",
+              ? "var(--color-text-heading)"
+              : "var(--color-text-ghost)",
           backgroundColor:
-            lang === "zh" ? "rgba(255,255,255,0.08)" : "transparent",
+            lang === "zh" ? "var(--color-bg-active)" : "transparent",
         }}
       >
         ZH

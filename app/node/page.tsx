@@ -16,7 +16,7 @@ export default function NodePage() {
       {articles.length === 0 ? (
         <p
           className="py-12 text-center font-mono text-sm"
-          style={{ color: "rgba(255,255,255,0.2)" }}
+          style={{ color: "var(--color-text-ghost)" }}
         >
           &gt;_ compiling...
         </p>
@@ -32,22 +32,22 @@ export default function NodePage() {
                 href={`/node/${article.slug}`}
                 className="group block rounded-lg p-5 transition-all"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  backgroundColor: "rgba(255,255,255,0.01)",
+                  border: "1px solid var(--color-border-dim)",
+                  backgroundColor: "var(--color-bg-surface)",
                 }}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3
                       className="text-sm xl:text-base font-medium transition-colors"
-                      style={{ color: "rgba(255,255,255,0.75)" }}
+                      style={{ color: "var(--color-text-body)" }}
                     >
                       {article.title}
                     </h3>
                     {article.preview && (
                       <p
                         className="mt-2 text-xs xl:text-sm leading-relaxed line-clamp-2"
-                        style={{ color: "rgba(255,255,255,0.3)" }}
+                        style={{ color: "var(--color-text-ghost)" }}
                       >
                         {article.preview}
                       </p>
@@ -62,7 +62,7 @@ export default function NodePage() {
                   </div>
                   <span
                     className="shrink-0 font-mono text-[11px]"
-                    style={{ color: "rgba(255,255,255,0.18)" }}
+                    style={{ color: "var(--color-text-ghost)" }}
                   >
                     {article.date.replace(/-/g, ".")}
                   </span>

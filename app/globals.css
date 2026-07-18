@@ -1,19 +1,72 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --color-bg-html: #fafaf7;
+  --color-bg-body: #f5f0e8;
+  --color-bg-header: rgba(245,240,232,0.92);
+  --color-bg-mobile-nav: rgba(245,240,232,0.98);
+  --color-bg-overlay: rgba(0,0,0,0.3);
+  --color-bg-modal: #fff;
+  --color-bg-surface: rgba(0,0,0,0.015);
+  --color-bg-surface-raised: rgba(0,0,0,0.04);
+  --color-bg-active: rgba(0,0,0,0.06);
+  --color-bg-hover: rgba(0,0,0,0.04);
+  --color-bg-code: rgba(0,0,0,0.06);
+  --color-bg-pre: rgba(0,0,0,0.04);
+  --color-bg-selection: rgba(0,0,0,0.1);
+
+  --color-text-primary: #1a1a1a;
+  --color-text-heading: #111;
+  --color-text-body: #555;
+  --color-text-muted: #777;
+  --color-text-subtle: #999;
+  --color-text-ghost: #bbb;
+
+  --color-border-default: rgba(0,0,0,0.12);
+  --color-border-subtle: rgba(0,0,0,0.08);
+  --color-border-dim: rgba(0,0,0,0.05);
+
+  --color-scrollbar-thumb: #ccc;
+}
+
+.dark {
+  --color-bg-html: #000;
+  --color-bg-body: #0a0a0a;
+  --color-bg-header: rgba(0,0,0,0.7);
+  --color-bg-mobile-nav: rgba(0,0,0,0.92);
+  --color-bg-overlay: rgba(0,0,0,0.8);
+  --color-bg-modal: #111;
+  --color-bg-surface: rgba(255,255,255,0.01);
+  --color-bg-surface-raised: rgba(255,255,255,0.03);
+  --color-bg-active: rgba(255,255,255,0.08);
+  --color-bg-hover: rgba(255,255,255,0.04);
+  --color-bg-code: rgba(255,255,255,0.06);
+  --color-bg-pre: rgba(255,255,255,0.04);
+  --color-bg-selection: rgba(255,255,255,0.15);
+
+  --color-text-primary: #ededed;
+  --color-text-heading: rgba(255,255,255,0.9);
+  --color-text-body: rgba(255,255,255,0.65);
+  --color-text-muted: rgba(255,255,255,0.45);
+  --color-text-subtle: rgba(255,255,255,0.35);
+  --color-text-ghost: rgba(255,255,255,0.2);
+
+  --color-border-default: rgba(255,255,255,0.1);
+  --color-border-subtle: rgba(255,255,255,0.08);
+  --color-border-dim: rgba(255,255,255,0.05);
+
+  --color-scrollbar-thumb: #333;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #333 transparent;
+  scrollbar-color: var(--color-scrollbar-thumb) transparent;
 }
 
 html,
 body {
-  background-color: #0a0a0a !important;
-  color: #ededed;
+  background-color: var(--color-bg-body);
+  color: var(--color-text-primary);
   color-scheme: dark;
 }
 
@@ -28,7 +81,7 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-bg-selection);
   color: #fff;
 }
 
@@ -68,14 +121,14 @@ body {
 /* MDX Article Typography */
 .mdx-content {
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-text-body);
   font-size: 0.9375rem;
 }
 
 .mdx-content h2 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-text-heading);
   margin-top: 2.5rem;
   margin-bottom: 1rem;
 }
@@ -83,38 +136,38 @@ body {
 .mdx-content h3 {
   font-size: 1.05rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--color-text-heading);
   margin-top: 2rem;
   margin-bottom: 0.75rem;
 }
 
 .mdx-content p {
   margin-bottom: 1.25rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-body);
 }
 
 .mdx-content strong {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-heading);
   font-weight: 600;
 }
 
 .mdx-content a {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-body);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(255, 255, 255, 0.2);
+  text-decoration-color: var(--color-text-ghost);
   transition: text-decoration-color 0.2s;
 }
 
 .mdx-content a:hover {
-  text-decoration-color: rgba(255, 255, 255, 0.6);
+  text-decoration-color: var(--color-text-body);
 }
 
 .mdx-content blockquote {
-  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-left: 2px solid var(--color-border-default);
   padding-left: 1.25rem;
   margin: 1.5rem 0;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-muted);
   font-style: italic;
 }
 
@@ -134,25 +187,25 @@ body {
 
 .mdx-content li {
   margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-body);
 }
 
 .mdx-content li strong {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-body);
 }
 
 .mdx-content code {
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.85em;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--color-bg-code);
   padding: 0.15em 0.4em;
   border-radius: 4px;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--color-text-body);
 }
 
 .mdx-content pre {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-pre) !important;
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
   padding: 1.25rem;
   overflow-x: auto;
@@ -166,12 +219,12 @@ body {
   padding: 0;
   border-radius: 0;
   font-size: inherit;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-text-body);
 }
 
 .mdx-content hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--color-border-subtle);
   margin: 2rem 0;
 }
 
@@ -185,16 +238,16 @@ body {
 .mdx-content th {
   text-align: left;
   padding: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid var(--color-border-default);
+  color: var(--color-text-muted);
   font-weight: 500;
   font-size: 0.8rem;
 }
 
 .mdx-content td {
   padding: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.55);
+  border-bottom: 1px solid var(--color-border-dim);
+  color: var(--color-text-muted);
 }
 
 .mdx-content img {

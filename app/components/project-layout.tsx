@@ -38,7 +38,7 @@ export function ProjectLayout({
         <Link
           href="/pow"
           className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
-          style={{ color: "rgba(255,255,255,0.35)" }}
+          style={{ color: "var(--color-text-subtle)" }}
         >
           <ArrowLeft size={14} />
           ← /PoW
@@ -49,7 +49,7 @@ export function ProjectLayout({
       <header className="mt-8 mb-12">
         <h1
           className="text-xl font-medium leading-relaxed md:text-2xl"
-          style={{ color: "rgba(255,255,255,0.9)" }}
+          style={{ color: "var(--color-text-heading)" }}
         >
           {lang === "en" && titleEn ? titleEn : title}
         </h1>
@@ -57,7 +57,7 @@ export function ProjectLayout({
         <div className="mt-4 flex items-center gap-4">
           <span
             className="font-mono text-xs"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "var(--color-text-ghost)" }}
           >
             {date}
           </span>
@@ -79,9 +79,9 @@ export function ProjectLayout({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  color: "rgba(255,255,255,0.6)",
+                  border: "1px solid var(--color-border-default)",
+                  backgroundColor: "var(--color-bg-hover)",
+                  color: "var(--color-text-muted)",
                 }}
               >
                 <Github size={13} />
@@ -95,9 +95,9 @@ export function ProjectLayout({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  color: "rgba(255,255,255,0.6)",
+                  border: "1px solid var(--color-border-default)",
+                  backgroundColor: "var(--color-bg-hover)",
+                  color: "var(--color-text-muted)",
                 }}
               >
                 <ExternalLink size={13} />
@@ -110,7 +110,7 @@ export function ProjectLayout({
         {summary && (
           <p
             className="mt-4 text-sm leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "var(--color-text-subtle)" }}
           >
             {summary}
           </p>
@@ -118,7 +118,7 @@ export function ProjectLayout({
 
         <div
           className="mt-6 h-px"
-          style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+          style={{ backgroundColor: "var(--color-border-subtle)" }}
         />
       </header>
 

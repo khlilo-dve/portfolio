@@ -17,7 +17,7 @@ export default function SignalPage() {
       {articles.length === 0 ? (
         <p
           className="py-12 text-center font-mono text-sm"
-          style={{ color: "rgba(255,255,255,0.2)" }}
+          style={{ color: "var(--color-text-ghost)" }}
         >
           &gt;_ awaiting signal...
         </p>
@@ -32,18 +32,18 @@ export default function SignalPage() {
               <Link
                 href={`/signal/${article.slug}`}
                 className="group flex items-baseline justify-between py-4 transition-all"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                style={{ borderBottom: "1px solid var(--color-border-dim)" }}
               >
                 <div className="flex items-baseline gap-4">
                   <span
                     className="font-mono text-xs xl:text-sm shrink-0"
-                    style={{ color: "rgba(255,255,255,0.2)" }}
+                    style={{ color: "var(--color-text-ghost)" }}
                   >
                     {article.date.replace(/-/g, ".")}
                   </span>
                   <span
                     className="text-sm xl:text-base transition-colors"
-                    style={{ color: "rgba(255,255,255,0.65)" }}
+                    style={{ color: "var(--color-text-body)" }}
                   >
                     {article.title}
                   </span>
@@ -51,7 +51,7 @@ export default function SignalPage() {
                 <ArrowRight
                   size={14}
                   className="ml-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-40"
-                  style={{ color: "#fff" }}
+                  style={{ color: "var(--color-text-primary)" }}
                 />
               </Link>
             </div>
@@ -63,15 +63,15 @@ export default function SignalPage() {
         className="mt-16 rounded-lg p-6 animate-fade-in"
         style={{
           animationDelay: "0.3s",
-          border: "1px solid rgba(255,255,255,0.1)",
-          backgroundColor: "rgba(255,255,255,0.02)",
+          border: "1px solid var(--color-border-default)",
+          backgroundColor: "var(--color-bg-surface-raised)",
         }}
       >
         <div className="flex flex-col items-center gap-6 sm:flex-row">
           <div
             className="h-28 w-28 shrink-0 overflow-hidden rounded-lg"
             style={{
-              border: "1px solid rgba(255,255,255,0.1)",
+              border: "1px solid var(--color-border-default)",
             }}
           >
             <Image
@@ -85,13 +85,13 @@ export default function SignalPage() {
           <div>
             <p
               className="font-mono text-sm"
-              style={{ color: "rgba(255,255,255,0.55)" }}
+              style={{ color: "var(--color-text-muted)" }}
             >
               &gt;_ Subscribe to Signal
             </p>
             <p
               className="mt-2 text-xs leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.3)" }}
+              style={{ color: "var(--color-text-ghost)" }}
             >
               扫描二维码关注微信公众号，获取最新的认知输出与深度思考。
               <br />

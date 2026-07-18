@@ -34,18 +34,18 @@ export function SectionHeader({
     <div className="mb-12">
       <h1
         className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase"
-        style={{ color: "rgba(255,255,255,0.25)" }}
+        style={{ color: "var(--color-text-ghost)" }}
       >
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-3 text-sm xl:text-base" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <p className="mt-3 text-sm xl:text-base" style={{ color: "var(--color-text-muted)" }}>
           {subtitle}
         </p>
       )}
       <div
         className="mt-4 h-px w-8"
-        style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+        style={{ backgroundColor: "var(--color-border-default)" }}
       />
     </div>
   );

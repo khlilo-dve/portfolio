@@ -38,17 +38,17 @@ function Field({
   return (
     <div
       className="flex gap-4 py-3"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      style={{ borderBottom: "1px solid var(--color-border-dim)" }}
     >
       <span
         className="w-32 shrink-0 font-mono text-xs xl:text-sm uppercase tracking-wider"
-        style={{ color: "rgba(255,255,255,0.2)" }}
+        style={{ color: "var(--color-text-ghost)" }}
       >
         {label}
       </span>
       <span
         className={`text-sm xl:text-base ${mono ? "font-mono text-xs xl:text-sm" : ""}`}
-        style={{ color: "rgba(255,255,255,0.55)" }}
+        style={{ color: "var(--color-text-muted)" }}
       >
         {value}
       </span>
@@ -72,7 +72,7 @@ export default function BeaconPage() {
       {isEmpty ? (
         <p
           className="py-12 text-center font-mono text-sm"
-          style={{ color: "rgba(255,255,255,0.2)" }}
+          style={{ color: "var(--color-text-ghost)" }}
         >
           &gt;_ initializing beacon...
         </p>
@@ -87,15 +87,15 @@ export default function BeaconPage() {
             <div>
               <h2
                 className="mb-4 font-mono text-xs tracking-widest uppercase"
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: "var(--color-text-subtle)" }}
               >
                 Current_Status
               </h2>
               <div
                 className="rounded-lg px-5"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  backgroundColor: "rgba(255,255,255,0.01)",
+                  border: "1px solid var(--color-border-dim)",
+                  backgroundColor: "var(--color-bg-surface)",
                 }}
               >
                 <Field label="Role" value={beaconData.currentStatus.role} />
@@ -110,15 +110,15 @@ export default function BeaconPage() {
             <div>
               <h2
                 className="mb-4 font-mono text-xs tracking-widest uppercase"
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: "var(--color-text-subtle)" }}
               >
                 Tech_Stack
               </h2>
               <div
                 className="rounded-lg p-5"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  backgroundColor: "rgba(255,255,255,0.01)",
+                  border: "1px solid var(--color-border-dim)",
+                  backgroundColor: "var(--color-bg-surface)",
                 }}
               >
                 <div className="grid gap-6 sm:grid-cols-2">
@@ -128,7 +128,7 @@ export default function BeaconPage() {
                       <div key={key}>
                         <span
                           className="font-mono text-[11px] uppercase"
-                          style={{ color: "rgba(255,255,255,0.2)" }}
+                          style={{ color: "var(--color-text-ghost)" }}
                         >
                           {key}
                         </span>
@@ -138,9 +138,9 @@ export default function BeaconPage() {
                               key={v}
                               className="rounded px-2 py-0.5 font-mono text-[11px]"
                               style={{
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                backgroundColor: "rgba(255,255,255,0.03)",
-                                color: "rgba(255,255,255,0.45)",
+                                border: "1px solid var(--color-border-default)",
+                                backgroundColor: "var(--color-bg-surface-raised)",
+                                color: "var(--color-text-muted)",
                               }}
                             >
                               {v}
@@ -158,15 +158,15 @@ export default function BeaconPage() {
             <div>
               <h2
                 className="mb-4 font-mono text-xs tracking-widest uppercase"
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: "var(--color-text-subtle)" }}
               >
                 Operating_Principles
               </h2>
               <div
                 className="rounded-lg px-5"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  backgroundColor: "rgba(255,255,255,0.01)",
+                  border: "1px solid var(--color-border-dim)",
+                  backgroundColor: "var(--color-bg-surface)",
                 }}
               >
                 {beaconData.principles.map((principle, i) => (
@@ -176,19 +176,19 @@ export default function BeaconPage() {
                     style={{
                       borderBottom:
                         i < beaconData.principles.length - 1
-                          ? "1px solid rgba(255,255,255,0.05)"
+                          ? "1px solid var(--color-border-dim)"
                           : "none",
                     }}
                   >
                     <span
                       className="font-mono text-xs shrink-0 pt-0.5"
-                      style={{ color: "rgba(255,255,255,0.12)" }}
+                      style={{ color: "var(--color-text-ghost)" }}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <p
                       className="text-sm leading-relaxed"
-                      style={{ color: "rgba(255,255,255,0.45)" }}
+                      style={{ color: "var(--color-text-muted)" }}
                     >
                       {principle}
                     </p>

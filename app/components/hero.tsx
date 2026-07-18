@@ -20,7 +20,7 @@ export function Hero() {
         >
           <span
             className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "var(--color-text-ghost)" }}
           >
             &gt;_ init
           </span>
@@ -34,7 +34,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.3 }}
               className="text-lg leading-relaxed tracking-wide md:text-xl xl:text-2xl"
-              style={{ color: "rgba(255,255,255,0.8)" }}
+              style={{ color: "var(--color-text-body)" }}
             >
               {line}
             </motion.p>
@@ -49,7 +49,7 @@ export function Hero() {
         >
           <span
             className="font-mono text-sm"
-            style={{ color: "rgba(255,255,255,0.15)" }}
+            style={{ color: "var(--color-text-ghost)" }}
           >
             █<span className="cursor-blink">_</span>
           </span>

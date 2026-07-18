@@ -35,7 +35,7 @@ export function BilingualBody({
         <Link
           href={backHref}
           className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
-          style={{ color: "rgba(255,255,255,0.35)" }}
+          style={{ color: "var(--color-text-subtle)" }}
         >
           <ArrowLeft size={14} />
           {backLabel}
@@ -47,14 +47,14 @@ export function BilingualBody({
       <header className="mt-8 mb-12">
         <h1
           className="text-xl font-medium leading-relaxed md:text-2xl"
-          style={{ color: "rgba(255,255,255,0.9)" }}
+          style={{ color: "var(--color-text-heading)" }}
         >
           {lang === "en" && titleEn ? titleEn : title}
         </h1>
         <div className="mt-4 flex items-center gap-4">
           <span
             className="font-mono text-xs"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "var(--color-text-ghost)" }}
           >
             {date}
           </span>
@@ -68,7 +68,7 @@ export function BilingualBody({
         </div>
         <div
           className="mt-6 h-px"
-          style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+          style={{ backgroundColor: "var(--color-border-subtle)" }}
         />
       </header>
 

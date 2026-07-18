@@ -60,7 +60,6 @@ my-website/
 
 1. 生成 `content/<signal|node>/<slug>.mdx`，带标准 frontmatter
 2. 可选生成 `<slug>.en.mdx` 英文版（共用日期/标签，标题与摘要独立）
-3. ~~在 `app/<signal|node>/page.tsx` 的索引数组首位登记条目~~ **（已废弃）** 列表页现在通过 `lib/mdx.ts` 自动扫描 `content/` 目录，无需手动注册
 
 ### 首次构建
 
@@ -91,13 +90,13 @@ cargo build --release
 | `-t, --type <signal\|node>` | 文章类型 |
 | `-s, --slug <SLUG>` | slug，规则 `^[a-z0-9][a-z0-9-]*$` |
 | `TITLE`（位置参数） | 中文标题 |
-| `--dry-run` | 仅预览生成的 mdx 与索引注入效果，不落盘 |
+| `--dry-run` | 仅预览生成的 mdx 内容，不落盘 |
 
 未通过参数提供的字段会进入交互式补齐。
 
-### 失败兜底
+### 工具完成后的流程
 
-~~若因 `page.tsx` 结构被大幅改动而无法定位索引数组锚点，工具**不会触碰源文件**，会打印出应追加的字面量，手动粘贴到数组最前面即可。~~ **（已废弃）** 列表页现自动发现内容目录中的 MDX 文件，无需手动注册。工具创建 `.mdx` 文件后即完成工作。
+工具创建 `.mdx` 文件后即完成工作。`git commit && git push` 后 Cloudflare Pages 自动部署。列表页通过 `lib/mdx.ts` 的 `getAllArticles()` 从文件系统动态发现文章，无需手动注册。
 
 ### 工具不覆盖的场景
 

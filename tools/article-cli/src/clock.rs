@@ -18,8 +18,7 @@ impl Clock {
     }
 }
 
-/// Wraps the chosen article date and exposes the two formats the
-/// blog uses: frontmatter (YYYY-MM-DD) and index listing (YYYY.MM.DD).
+/// Wraps the chosen article date in frontmatter format (YYYY-MM-DD).
 pub struct ArticleDate(NaiveDate);
 
 impl ArticleDate {
@@ -29,9 +28,5 @@ impl ArticleDate {
 
     pub fn frontmatter(&self) -> String {
         self.0.format("%Y-%m-%d").to_string()
-    }
-
-    pub fn index(&self) -> String {
-        self.0.format("%Y.%m.%d").to_string()
     }
 }

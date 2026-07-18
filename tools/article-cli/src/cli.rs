@@ -9,7 +9,7 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Command {
-    /// Scaffold a new article (MDX + index registration)
+    /// Scaffold a new article (MDX files only)
     New(NewArgs),
 }
 

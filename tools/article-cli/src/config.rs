@@ -31,10 +31,4 @@ impl ProjectPaths {
     pub fn node_content_dir(&self) -> PathBuf {
         self.root.join("content/node")
     }
-    pub fn signal_index(&self) -> PathBuf {
-        self.root.join("app/signal/page.tsx")
-    }
-    pub fn node_index(&self) -> PathBuf {
-        self.root.join("app/node/page.tsx")
-    }
 }

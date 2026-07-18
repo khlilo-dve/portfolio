@@ -22,9 +22,12 @@ my-website/
 │   │   ├── mdx-content.tsx         # MDX 渲染器
 │   │   ├── tag-badge.tsx           # 标签徽章（共享）
 │   │   ├── lang-toggle.tsx         # 语言切换按钮（共享）
+│   │   ├── theme-provider.tsx      # 日间/夜间主题 Context + localStorage
+│   │   ├── theme-toggle.tsx        # 主题切换按钮（Sun/Moon 图标）
 │   │   └── x-logo.tsx              # X(Twitter) Logo SVG（共享）
 │   ├── hooks/
-│   │   └── use-bilingual.ts        # 双语状态 hook
+│   │   ├── use-bilingual.ts        # 双语状态 hook
+│   │   └── use-theme.ts            # 主题状态 hook
 │   ├── signal/
 │   │   ├── page.tsx                # Signal 文章列表页
 │   │   └── [slug]/page.tsx         # Signal 文章详情页（动态路由）
@@ -384,3 +387,45 @@ npm run dev
 
 如果 `git push` 提示需要认证，使用 GitHub Personal Access Token 作为密码：
 https://github.com/settings/tokens/new （勾选 `repo` 权限）
+
+---
+
+## 九、主题系统
+
+网站支持日间/夜间模式切换。导航栏右上角的 ☀/☾ 图标按钮一键切换。
+
+### 实现机制
+
+所有颜色通过 23 个 CSS 自定义属性（`--color-*`）控制，定义在 `app/globals.css`：
+
+- **`:root`** — 日间模式（米白底 `#f5f0e8` + 黑字）
+- **`.dark`** — 夜间模式（黑底 + 白字，即当前默认）
+
+`app/components/theme-provider.tsx` 负责：
+1. 页面加载时读取 `localStorage` 或检测系统 `prefers-color-scheme`
+2. 将 `dark` class 应用到 `<html>` 元素
+3. 切换时更新 `localStorage` 和 class
+
+`app/layout.tsx` 的 `<head>` 中有一个内联脚本，在 React 渲染前就设置好 `dark` class，防止切换时白屏闪烁。
+
+### 修改日间/夜间配色
+
+文件：`app/globals.css`
+
+找到 `:root` 块（日间）和 `.dark` 块（夜间），修改对应的 CSS 变量值。例如：
+
+```css
+:root {
+  --color-bg-body: #f5f0e8;       /* ← 日间页面背景色 */
+  --color-text-primary: #1a1a1a;  /* ← 日间主文字色 */
+  ...
+}
+
+.dark {
+  --color-bg-body: #0a0a0a;       /* ← 夜间页面背景色 */
+  --color-text-primary: #ededed;  /* ← 夜间主文字色 */
+  ...
+}
+```
+
+修改变量后刷新页面即时生效，无需修改任何组件代码。

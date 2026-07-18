@@ -41,7 +41,7 @@ fn run_new(args: NewArgs, clock: &Clock) -> Result<()> {
             "ℹ".cyan()
         );
         println!(
-            "{} git commit && git push 后 Cloudflare Pages 自动部署",
+            "{} git commit && git push 后 Vercel 自动部署",
             "→".cyan()
         );
     }

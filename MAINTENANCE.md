@@ -96,7 +96,7 @@ cargo build --release
 
 ### 工具完成后的流程
 
-工具创建 `.mdx` 文件后即完成工作。`git commit && git push` 后 Cloudflare Pages 自动部署。列表页通过 `lib/mdx.ts` 的 `getAllArticles()` 从文件系统动态发现文章，无需手动注册。
+工具创建 `.mdx` 文件后即完成工作。`git commit && git push` 后 Vercel 自动部署。列表页通过 `lib/mdx.ts` 的 `getAllArticles()` 从文件系统动态发现文章，无需手动注册。
 
 ### 工具不覆盖的场景
 
@@ -350,7 +350,7 @@ git commit -m "简要描述改了什么"
 git push
 ```
 
-Cloudflare Pages 会自动重新构建和部署，约 1-2 分钟后线上更新。
+Vercel 会自动重新构建和部署，约 1-2 分钟后线上更新。
 
 ### 本地预览（推荐先预览再推送）
 

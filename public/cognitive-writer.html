@@ -1,893 +1,771 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cognitive Writer v3.3 — 一个想法进去，两边文章出来</title>
+  <title>Cognitive Writer — 一个想法进去，两边文章出来</title>
 
-  <!-- Fonts: Space Grotesk, JetBrains Mono, Plus Jakarta Sans, Noto Serif SC -->
+  <!-- Google Fonts: Newsreader (Editorial Serif) + Inter Tight + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@400;600;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-deep: #050508;
-      --bg-card: rgba(18, 18, 24, 0.75);
-      --bg-card-hover: rgba(28, 28, 38, 0.85);
-      --accent-rust: #ea580c;
-      --accent-rust-glow: rgba(234, 88, 12, 0.25);
-      --accent-cyan: #06b6d4;
-      --accent-cyan-glow: rgba(6, 182, 212, 0.2);
-      --accent-emerald: #10b981;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-active: rgba(234, 88, 12, 0.4);
+      --bg: #f8f6f0;
+      --bg-alt: #f1ede2;
+      --card-bg: #ffffff;
+      --ink: #18181b;
+      --ink-secondary: #3f3f46;
+      --ink-muted: #52525b;
+      --ink-faint: #71717a;
+      --line: #e4dfd3;
+      --line-dark: #27272a;
+      --terracotta: #c2410c;
+      --terracotta-light: #ea580c;
+      --terracotta-bg: #fff7ed;
+      --terracotta-border: #fed7aa;
+      --olive: #3f6212;
+      --olive-bg: #f7fee7;
+
+      --serif: 'Newsreader', 'Noto Serif SC', Georgia, serif;
+      --sans: 'Inter Tight', 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
       --mono: 'JetBrains Mono', monospace;
-      --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-      --serif: 'Noto Serif SC', serif;
-      --display: 'Space Grotesk', sans-serif;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      scrollbar-width: thin;
-      scrollbar-color: #334155 transparent;
     }
 
     body {
-      background-color: var(--bg-deep);
-      color: var(--text-primary);
+      background-color: var(--bg);
+      color: var(--ink);
       font-family: var(--sans);
       line-height: 1.6;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      background-image:
-        radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 100% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-        linear-gradient(to bottom, transparent, rgba(5, 5, 8, 0.95));
-      background-attachment: fixed;
+      background-image: radial-gradient(var(--line) 1px, transparent 1px);
+      background-size: 24px 24px;
+      padding-bottom: 6rem;
     }
 
-    /* Ambient Grid Canvas Texture */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: -1;
-      mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-    }
-
-    /* Top Navigation Bar */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(16px);
-      background: rgba(5, 5, 8, 0.8);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2.5rem;
-      max-width: 1400px;
+    /* Top Masthead */
+    .masthead {
+      max-width: 1080px;
       margin: 0 auto;
+      padding: 2.5rem 2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
     }
 
     .brand {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 0.75rem;
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
       text-decoration: none;
+      color: var(--ink);
     }
 
-    .brand-tag {
-      background: rgba(234, 88, 12, 0.15);
-      border: 1px solid var(--accent-rust);
-      color: var(--accent-rust);
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 9999px;
+    .brand-title {
+      font-family: var(--serif);
+      font-size: 1.35rem;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: -0.01em;
     }
 
-    .nav-status {
+    .brand-edition {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--terracotta);
+      background: var(--terracotta-bg);
+      border: 1px solid var(--terracotta-border);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .meta-status {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--ink-faint);
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
     }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
+    .meta-status::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background-color: var(--terracotta-light);
       border-radius: 50%;
-      background: var(--accent-emerald);
-      box-shadow: 0 0 10px var(--accent-emerald);
-      animation: pulse 2s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.9); }
-    }
-
-    /* Container */
+    /* Main Container */
     .container {
-      max-width: 1240px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
     /* Hero Section */
     .hero {
-      padding: 6rem 0 4rem;
+      padding: 5rem 0 3.5rem;
       text-align: center;
-      position: relative;
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
+    .hero-kicker {
       font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      backdrop-filter: blur(8px);
-    }
-
-    .hero-badge span {
-      color: var(--accent-rust);
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--terracotta);
       font-weight: 600;
+      margin-bottom: 1.25rem;
     }
 
-    .hero-title {
-      font-family: var(--display);
-      font-size: clamp(2.5rem, 6vw, 4.8rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero-title .highlight-rust {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .hero-title .highlight-white {
-      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
+    .hero-headline {
       font-family: var(--serif);
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
-      color: var(--text-secondary);
-      max-width: 680px;
-      margin: 0 auto 3.5rem;
+      font-size: clamp(2.75rem, 5.5vw, 4.4rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      max-width: 860px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--terracotta);
+      font-family: var(--serif);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
       line-height: 1.7;
+      color: var(--ink-muted);
+      max-width: 640px;
+      margin: 0 auto 3rem;
+      font-family: var(--sans);
+      font-weight: 400;
     }
 
-    /* Terminal Simulation Stage */
-    .terminal-wrapper {
-      position: relative;
-      max-width: 1040px;
-      margin: 0 auto 6rem;
-      border-radius: 16px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(234, 88, 12, 0.5), rgba(6, 182, 212, 0.2), rgba(255,255,255,0.05));
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 50px -10px var(--accent-rust-glow);
-    }
-
-    .terminal-box {
-      background: #09090d;
-      border-radius: 15px;
+    /* Paper Showcase Box: Live REPL Walkthrough */
+    .paper-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+      border-radius: 8px;
       overflow: hidden;
+      margin-bottom: 5rem;
     }
 
-    .terminal-header {
-      background: #111118;
-      padding: 0.9rem 1.4rem;
+    .paper-header {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--line);
+      padding: 0.75rem 1.5rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .terminal-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .terminal-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-    .dot-red { background: #ef4444; }
-    .dot-yellow { background: #eab308; }
-    .dot-green { background: #22c55e; }
-
-    .terminal-title {
+      align-items: center;
       font-family: var(--mono);
       font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
+      color: var(--ink-faint);
     }
 
-    .terminal-content {
-      padding: 2rem;
+    .paper-content {
+      padding: 2.25rem;
       font-family: var(--mono);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       line-height: 1.8;
-      text-align: left;
+      background: #faf9f5;
     }
 
-    .t-prompt {
-      color: var(--accent-rust);
-      font-weight: 700;
+    .cli-row {
+      margin-bottom: 0.75rem;
     }
 
-    .t-user {
-      color: #f1f5f9;
+    .cli-prompt {
+      color: var(--terracotta);
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .cli-user {
+      color: var(--ink);
       font-weight: 500;
     }
 
-    .t-agent {
-      color: var(--accent-cyan);
-      margin-top: 0.5rem;
+    .cli-agent {
+      color: var(--ink-secondary);
+      padding-left: 1rem;
+      border-left: 2px solid var(--line);
+      margin: 0.5rem 0;
     }
 
-    .t-comment {
-      color: #64748b;
-    }
-
-    .t-highlight {
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
-      padding: 0.1rem 0.4rem;
+    .cli-checkpoint {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--terracotta);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
       border-radius: 4px;
     }
 
-    .t-success {
-      color: var(--accent-emerald);
+    .cli-checkpoint-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--terracotta);
       font-weight: 600;
+      margin-bottom: 0.25rem;
     }
 
-    .t-box {
-      background: rgba(255, 255, 255, 0.03);
-      border-left: 3px solid var(--accent-rust);
-      padding: 0.75rem 1rem;
-      margin: 0.75rem 0;
-      border-radius: 0 8px 8px 0;
+    .cli-success {
+      color: var(--olive);
+      font-weight: 500;
     }
 
-    /* Section Typography */
-    .section-header {
-      text-align: center;
-      margin-bottom: 3.5rem;
-    }
-
-    .section-tag {
+    /* Section Structure */
+    .section-label {
       font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--accent-rust);
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      margin-bottom: 0.5rem;
+      color: var(--ink-faint);
+      margin-bottom: 0.75rem;
+      display: block;
     }
 
     .section-title {
-      font-family: var(--display);
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
+      font-family: var(--serif);
+      font-size: 2.25rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 2.5rem;
+      color: var(--ink);
     }
 
-    /* Architectural Pipeline */
-    .pipeline-grid {
+    /* 3-Column Editorial Grid */
+    .editorial-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 6rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2.2rem;
-      backdrop-filter: blur(12px);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent-rust), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .card:hover {
-      background: var(--bg-card-hover);
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card-num {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--accent-rust);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      display: inline-block;
-      background: rgba(234, 88, 12, 0.1);
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-    }
-
-    .card-title {
-      font-family: var(--display);
-      font-size: 1.35rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #fff;
-    }
-
-    .card-desc {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    /* Dual Output Showcase */
-    .showcase-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
-      margin-bottom: 6rem;
+      margin-bottom: 5rem;
     }
 
-    @media (max-width: 860px) {
-      .showcase-wrapper {
+    @media (max-width: 768px) {
+      .editorial-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .dual-box {
-      background: #0d0d14;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2rem;
-      position: relative;
+    .column-box {
+      border-top: 2px solid var(--ink);
+      padding-top: 1.25rem;
     }
 
-    .dual-header {
+    .column-num {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--terracotta);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .column-title {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+      color: var(--ink);
+    }
+
+    .column-desc {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    /* Dual Output Side-by-Side Presentation */
+    .dual-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    @media (max-width: 800px) {
+      .dual-showcase {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .output-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.75rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border-color);
     }
 
-    .dual-tag {
+    .output-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .output-card-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .output-badge {
       font-family: var(--mono);
       font-size: 0.75rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
     }
 
-    .tag-wechat {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+    .badge-wechat {
+      background: var(--olive-bg);
+      color: var(--olive);
+      border: 1px solid #d9f99d;
     }
 
-    .tag-site {
-      background: rgba(6, 182, 212, 0.15);
-      color: #38bdf8;
-      border: 1px solid rgba(6, 182, 212, 0.3);
+    .badge-site {
+      background: var(--terracotta-bg);
+      color: var(--terracotta);
+      border: 1px solid var(--terracotta-border);
     }
 
-    .preview-phone {
-      background: #181822;
-      border-radius: 12px;
+    .output-preview {
+      background: #faf8f5;
+      border: 1px dashed var(--line);
       padding: 1.25rem;
-      border: 1px solid rgba(255,255,255,0.05);
-      font-family: -apple-system, system-ui, sans-serif;
+      border-radius: 6px;
+      margin-bottom: 1.25rem;
     }
 
-    .preview-article-title {
-      font-size: 1.1rem;
+    .preview-wechat-title {
+      font-family: var(--sans);
+      font-size: 1rem;
       font-weight: 700;
-      color: #f1f5f9;
       margin-bottom: 0.5rem;
-      line-height: 1.4;
+      color: var(--ink);
     }
 
-    .preview-article-meta {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-bottom: 1rem;
-    }
-
-    .preview-article-body {
+    .preview-wechat-text {
       font-size: 0.85rem;
-      color: #cbd5e1;
-      line-height: 1.8;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 0.75rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
     }
 
-    /* Deep Comparison Matrix */
-    .matrix-section {
-      margin-bottom: 6rem;
+    .preview-mdx-text {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
     }
 
-    .matrix-table {
+    .output-footer-text {
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+    }
+
+    /* Comparison Table: Minimal & Clean */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 5rem;
+    }
+
+    table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--bg-card);
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
+      text-align: left;
+      font-size: 0.925rem;
+    }
+
+    th, td {
+      padding: 1.15rem 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      background: var(--bg-alt);
+      font-family: var(--serif);
+      font-weight: 600;
+      color: var(--ink);
       font-size: 0.95rem;
     }
 
-    .matrix-table th, .matrix-table td {
-      padding: 1.25rem 1.5rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .matrix-table th {
-      background: rgba(255, 255, 255, 0.03);
-      font-family: var(--display);
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .matrix-table tr:last-child td {
+    tr:last-child td {
       border-bottom: none;
     }
 
-    .matrix-table td:first-child {
-      font-weight: 600;
-      color: var(--text-primary);
-      width: 30%;
+    td.dim {
+      color: var(--ink-faint);
     }
 
-    .matrix-table td.dim {
-      color: var(--text-muted);
-    }
-
-    .matrix-table td.active-col {
-      color: var(--accent-rust);
+    td.highlight-col {
+      color: var(--ink);
       font-weight: 500;
-      background: rgba(234, 88, 12, 0.03);
+      background: #fffdfa;
     }
 
-    /* Rust Engine Specs */
-    .specs-strip {
-      background: linear-gradient(180deg, rgba(234, 88, 12, 0.08) 0%, rgba(5, 5, 8, 0.4) 100%);
-      border: 1px solid var(--border-active);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
+    /* Editorial Spec Ribbon */
+    .specs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 2.5rem 0;
+      margin-bottom: 5rem;
       text-align: center;
-      margin-bottom: 6rem;
     }
 
-    .spec-item .num {
-      font-family: var(--mono);
-      font-size: 2.75rem;
-      font-weight: 800;
-      color: var(--text-primary);
+    @media (max-width: 640px) {
+      .specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .spec-val {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--terracotta);
       line-height: 1;
       margin-bottom: 0.5rem;
     }
 
-    .spec-item .num span {
-      color: var(--accent-rust);
-      font-size: 1.5rem;
-    }
-
-    .spec-item .label {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
+    .spec-key {
       font-family: var(--mono);
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
     }
 
-    /* Product Preview / Action Mock */
-    .cta-stage {
+    /* Bottom Section */
+    .closing-box {
       text-align: center;
-      padding: 5rem 2rem;
-      background: radial-gradient(circle at center, rgba(234, 88, 12, 0.15) 0%, transparent 70%);
-      border-radius: 24px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 6rem;
+      padding: 4rem 2rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--line);
+      border-radius: 8px;
     }
 
-    .cta-stage h3 {
-      font-family: var(--display);
-      font-size: 2.2rem;
-      font-weight: 700;
+    .closing-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 400;
       margin-bottom: 1rem;
+      color: var(--ink);
     }
 
-    .cta-stage p {
-      color: var(--text-secondary);
-      max-width: 540px;
-      margin: 0 auto 2.5rem;
-      font-size: 1.05rem;
+    .closing-desc {
+      font-size: 1rem;
+      color: var(--ink-muted);
+      max-width: 500px;
+      margin: 0 auto 2rem;
     }
 
-    .fake-btn-group {
-      display: inline-flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .fake-btn-primary {
-      background: var(--accent-rust);
-      color: #fff;
-      padding: 0.9rem 2rem;
-      border-radius: 12px;
-      font-weight: 600;
+    .cta-button {
+      display: inline-block;
+      background: var(--ink);
+      color: #ffffff;
+      padding: 0.75rem 1.75rem;
+      border-radius: 4px;
       font-family: var(--sans);
-      font-size: 0.95rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 10px 25px -5px var(--accent-rust-glow);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: default;
-      transition: all 0.2s;
-    }
-
-    .fake-btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px -5px var(--accent-rust-glow);
-    }
-
-    .fake-btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-      padding: 0.9rem 2rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      border: 1px solid var(--border-color);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: default;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--border-color);
-      padding: 3rem 0;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
+      max-width: 1080px;
+      margin: 4rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink-faint);
     }
 
     footer a {
-      color: var(--text-secondary);
+      color: var(--ink-muted);
       text-decoration: none;
-      transition: color 0.2s;
     }
 
     footer a:hover {
-      color: var(--accent-rust);
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-grid"></div>
-
-  <!-- Top Nav -->
-  <header class="nav">
+  <!-- Masthead -->
+  <header class="masthead">
     <a href="#" class="brand">
-      <span>Cognitive Writer</span>
-      <span class="brand-tag">v3.3.2</span>
+      <span class="brand-title">Cognitive Writer</span>
+      <span class="brand-edition">v3.3</span>
     </a>
-    <div class="nav-status">
-      <div class="status-dot"></div>
-      <span>Rust Core Engine Active</span>
+    <div class="meta-status">
+      <span>Rust Engine · Tokio Async Loop</span>
     </div>
   </header>
 
   <main class="container">
 
-    <!-- Hero Header -->
+    <!-- Hero -->
     <section class="hero">
-      <div class="hero-badge">
-        <span>NEW</span> 异步事件循环 + 会话持久化 + 10 维度风格逆向
-      </div>
-
-      <h1 class="hero-title">
+      <div class="hero-kicker">Architecture & Product Specification</div>
+      <h1 class="hero-headline">
         一个想法进去，<br>
-        <span class="highlight-rust">两边文章出来。</span>
+        <em>两边文章出来。</em>
       </h1>
-
-      <p class="hero-subtitle">
-        用 Rust 构建的端到端写作 Agent。说人话触发意图分类，骨架→渲染双通道生成，富文本自动注入微信剪贴板，MDX 自动提交部署个人网站。
+      <p class="hero-sub">
+        专为微信公众号与个人数字花园打造的端到端写作 Agent。说自然口语触发意图识别，双通道解耦生成，微信富文本注入剪贴板，MDX 自动化提交部署。
       </p>
 
-      <!-- Terminal Live Experience -->
-      <div class="terminal-wrapper">
-        <div class="terminal-box">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <div class="terminal-dot dot-red"></div>
-              <div class="terminal-dot dot-yellow"></div>
-              <div class="terminal-dot dot-green"></div>
-            </div>
-            <div class="terminal-title">cognitive-writer-repl — tokio::select!</div>
-            <div style="width: 40px;"></div>
+      <!-- Paper Terminal Card -->
+      <div class="paper-card">
+        <div class="paper-header">
+          <span>SESSION_LOG: interactive-repl.rs</span>
+          <span>ESTABLISHED 2026-08</span>
+        </div>
+        <div class="paper-content">
+          <div class="cli-row">
+            <span class="cli-prompt">&gt; </span>
+            <span class="cli-user">写一篇关于认知偏差在投资中的应用，轻辩风格</span>
+          </div>
+          <div class="cli-agent">
+            Agent: 匹配风格 [qingbian.md] → 生成 400 字骨架 → 渲染 1800 字正文
           </div>
 
-          <div class="terminal-content">
-            <p><span class="t-prompt">&gt;</span> <span class="t-user">写一篇关于认知偏差在投资中的应用，轻辩风格</span></p>
-            <p class="t-agent">Agent: 匹配风格 [qingbian.md] → 生成 400 字核心骨架 → 渲染全文 1800 字</p>
-
-            <div class="t-box">
-              <span class="t-comment">/* 检查点 1：全文确认 (支持局部重绘 / 风格重写 / 渐进反悔) */</span><br>
-              <span class="t-user">&gt; 第三段加个具体案例，把结尾改犀利一点</span><br>
-              <span class="t-agent">Agent: 保持上下文一致，执行局部重绘... 已生成 V2 版本</span>
+          <div class="cli-checkpoint">
+            <div class="cli-checkpoint-title">Checkpoint 01: 全文确认 (支持局部重绘 / 风格重写 / 渐进反悔)</div>
+            <div class="cli-row" style="margin-top: 0.4rem;">
+              <span class="cli-prompt">&gt; </span>
+              <span class="cli-user">第三段加个具体案例，把结尾改犀利一点</span>
             </div>
+            <div class="cli-agent" style="margin-top: 0.4rem;">
+              Agent: 保持上下文一致，执行局部重绘... 已生成 V2 版本
+            </div>
+          </div>
 
-            <p><span class="t-prompt">&gt;</span> <span class="t-user">OK</span></p>
-            <p class="t-agent">Agent: 微信富文本已注入系统剪贴板（打开微信后台 Ctrl+V 即排版完成）</p>
-            <p class="t-agent">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人网站 MDX 草稿已写入 content/signal/cognitive-bias-investing.mdx</p>
+          <div class="cli-row">
+            <span class="cli-prompt">&gt; </span>
+            <span class="cli-user">OK</span>
+          </div>
+          <div class="cli-agent">
+            Agent: 微信富文本已注入系统剪贴板（打开公众号后台 Ctrl+V 即排版完成）<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人网站 MDX 草稿已写入 content/signal/cognitive-bias-investing.mdx
+          </div>
 
-            <div class="t-box" style="border-left-color: var(--accent-cyan);">
-              <span class="t-comment">/* 检查点 2：发布确认 (草稿不等于上线，把控权永远在人) */</span><br>
-              <span class="t-prompt">&gt;</span> <span class="t-user">发布</span><br>
-              <p class="t-success">✔ git commit -m "post: 认知偏差在投资中的应用" → git push origin main</p>
-              <p class="t-success">✔ 部署已触发：https://khlilo.xyz/signal/cognitive-bias-investing</p>
+          <div class="cli-checkpoint" style="border-left-color: var(--olive);">
+            <div class="cli-checkpoint-title" style="color: var(--olive);">Checkpoint 02: 发布确认 (草稿不等于上线，把控权永远在人)</div>
+            <div class="cli-row" style="margin-top: 0.4rem;">
+              <span class="cli-prompt">&gt; </span>
+              <span class="cli-user">发布</span>
+            </div>
+            <div class="cli-success" style="margin-top: 0.4rem;">
+              ✔ git commit -m "post: 认知偏差在投资中的应用" → git push origin main<br>
+              ✔ 部署已触发：https://khlilo.xyz/signal/cognitive-bias-investing
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Core Pipeline Architecture -->
+    <!-- Editorial 3-Column Architecture -->
     <section>
-      <div class="section-header">
-        <div class="section-tag">Architecture</div>
-        <h2 class="section-title">三大工业级设计，拒绝玩具范式</h2>
-      </div>
+      <span class="section-label">Design Principles</span>
+      <h2 class="section-title">三大核心工程设计</h2>
 
-      <div class="pipeline-grid">
-        <div class="card">
-          <div class="card-num">01 / DISPATCH</div>
-          <h3 class="card-title">自然语言状态机</h3>
-          <p class="card-desc">
-            告别机械的 CLI 子命令。内置 4 状态有限状态机（Idle ↔ WaitingForOutline ↔ WaitingForFulltext ↔ WaitingForPublish），利用极简 LLM 意图分类器解析自然口语，精准匹配意图并抵御误操作。
+      <div class="editorial-grid">
+        <div class="column-box">
+          <div class="column-num">01 / STATE MACHINE</div>
+          <h3 class="column-title">自然语言对话状态机</h3>
+          <p class="column-desc">
+            告别死记硬背的 CLI 参数。基于 Rust 内置 4 状态有限状态机，结合极简 LLM 意图解析器，能够理解口语化表达（如“整一篇”、“拉倒”、“把结尾改短”），抵御越界误操作。
           </p>
         </div>
 
-        <div class="card">
-          <div class="card-num">02 / ENGINE</div>
-          <h3 class="card-title">骨架-渲染双通道 CoT</h3>
-          <p class="card-desc">
-            Pass 1 提取并注入风格 Spec 输出结构化骨架（控制信息密度与逻辑走向）；Pass 2 结合素材展开高质量正文。彻底消除单次长文本生成的“逻辑坍缩”与空洞套话。
+        <div class="column-box">
+          <div class="column-num">02 / SKELETON & RENDER</div>
+          <h3 class="column-title">骨架-渲染双通道 CoT</h3>
+          <p class="column-desc">
+            Pass 1 注入风格 Spec 生成逻辑骨架（把控信息密度与论证走向）；Pass 2 结合原始素材展开正文。彻底根治单次长文本生成的“逻辑坍缩”与空洞套话。
           </p>
         </div>
 
-        <div class="card">
-          <div class="card-num">03 / PIPELINE</div>
-          <h3 class="card-title">端到端双轨直达交付</h3>
-          <p class="card-desc">
-            从灵感输入到双端上线全程不切换工具。跨平台原生 CF_HTML 协议直达微信公众号剪贴板，Next.js MDX frontmatter 生成与 Git Push 直连云端部署。
+        <div class="column-box">
+          <div class="column-num">03 / DUAL DELIVERY</div>
+          <h3 class="column-title">端到端双轨直达交付</h3>
+          <p class="column-desc">
+            从选题输入到双平台上线全程不切换工具。跨平台原生 CF_HTML 协议直达微信公众号剪贴板，Next.js MDX frontmatter 生成与 Git Push 直连云端部署。
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Dual Output Showcase Section -->
+    <!-- Dual Delivery Showcase -->
     <section>
-      <div class="section-header">
-        <div class="section-tag">Dual Channel Delivery</div>
-        <h2 class="section-title">一次对话，两端完美交付</h2>
-      </div>
+      <span class="section-label">Outputs</span>
+      <h2 class="section-title">一次对话，两端排版就绪</h2>
 
-      <div class="showcase-wrapper">
+      <div class="dual-showcase">
         <!-- WeChat Box -->
-        <div class="dual-box">
-          <div class="dual-header">
-            <div>
-              <h3 style="font-size: 1.2rem; font-weight: 700;">微信公众号生态</h3>
-              <p style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono);">CF_HTML 跨平台剪贴板</p>
+        <div class="output-card">
+          <div>
+            <div class="output-card-header">
+              <span class="output-card-title">微信公众号生态</span>
+              <span class="output-badge badge-wechat">CF_HTML 剪贴板</span>
             </div>
-            <span class="dual-tag tag-wechat">Ctrl+V 即发</span>
-          </div>
-          <div class="preview-phone">
-            <div class="preview-article-title">认知偏差在投资中的隐性杀伤力</div>
-            <div class="preview-article-meta">原创 · khlilo · 深度思考</div>
-            <div class="preview-article-body">
-              行为金融学研究表明，即使是专业投资者也无法完全避免偏差。<strong style="color:#ea580c">关键是建立一套系统性的纠正机制</strong>，而不是依赖意志力。
+            <div class="output-preview">
+              <div class="preview-wechat-title">认知偏差在投资中的隐性杀伤力</div>
+              <p class="preview-wechat-text">
+                行为金融学研究表明，即使是专业投资者也无法完全避免偏差。<strong style="color: var(--terracotta);">关键是建立一套系统性的纠正机制</strong>，而不是依赖意志力。
+              </p>
             </div>
           </div>
-          <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-            通过 PowerShell MemoryStream / xclip / wl-copy 跨平台原生写入，自动转换精修排版与代码块高亮，规避 .NET 乱码问题。
+          <p class="output-footer-text">
+            PowerShell MemoryStream / xclip 原生注入，保持字体与间距排版，规避 .NET 中文乱码。
           </p>
         </div>
 
-        <!-- Personal Website Box -->
-        <div class="dual-box">
-          <div class="dual-header">
-            <div>
-              <h3 style="font-size: 1.2rem; font-weight: 700;">个人数字花园 (MDX)</h3>
-              <p style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono);">Automated Git CI/CD</p>
+        <!-- Personal Site Box -->
+        <div class="output-card">
+          <div>
+            <div class="output-card-header">
+              <span class="output-card-title">个人数字花园 (MDX)</span>
+              <span class="output-badge badge-site">Git Push 自动化</span>
             </div>
-            <span class="dual-tag tag-site">全自动部署上线</span>
-          </div>
-          <div class="preview-phone" style="background: #09090d; border-color: rgba(6,182,212,0.2);">
-            <div style="font-family: var(--mono); font-size: 0.75rem; color: #38bdf8; margin-bottom: 0.5rem;">
-              ---<br>
-              title: "认知偏差在投资中的隐性杀伤力"<br>
-              date: "2026-08-25"<br>
-              tags: ["认知", "系统思维"]<br>
-              ---
-            </div>
-            <div class="preview-article-body" style="font-family: var(--mono); font-size: 0.8rem; color: #94a3b8;">
-              # 认知偏差在投资中的隐性杀伤力<br>
-              &gt; 投资中最昂贵的学费，往往付给了未被察觉的自我欺骗。
+            <div class="output-preview">
+              <div class="preview-mdx-text">
+                ---<br>
+                title: "认知偏差在投资中的隐性杀伤力"<br>
+                date: "2026-08-25"<br>
+                tags: ["认知", "系统思维"]<br>
+                ---<br>
+                # 认知偏差在投资中的隐性杀伤力
+              </div>
             </div>
           </div>
-          <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-            自动注入 Frontmatter 元数据，直接写入网站内容仓库，调用 Git 工作流推送到云端触发边缘网络瞬间构建。
+          <p class="output-footer-text">
+            自动生成 Frontmatter 元数据，直接写入内容仓库并执行 Git 提交，触发云端构建。
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Deep Spec / Matrix -->
-    <section class="matrix-section">
-      <div class="section-header">
-        <div class="section-tag">Comparison</div>
-        <h2 class="section-title">为什么普通 GPT 提示词写不出好文章？</h2>
-      </div>
+    <!-- Comparison Matrix -->
+    <section>
+      <span class="section-label">Comparison</span>
+      <h2 class="section-title">为什么普通 Prompt 写不出好文章？</h2>
 
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th>对比维度</th>
-            <th>普通通用 AI 工具</th>
-            <th>Cognitive Writer v3.3</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>风格学习机制</td>
-            <td class="dim">硬塞 3000 字原文（占满上下文，模型抓不住重点）</td>
-            <td class="active-col">10 维度逆向解析 → 生成 ≤600 字精简执行 Spec</td>
-          </tr>
-          <tr>
-            <td>长文逻辑把控</td>
-            <td class="dim">单次粗暴输出（后半段车轱辘话、逻辑坍缩）</td>
-            <td class="active-col">骨架与正文双 Pass 解耦，保证高信息密度</td>
-          </tr>
-          <tr>
-            <td>修改与精修</td>
-            <td class="dim">全篇重新生成（之前写得好的段落被破坏）</td>
-            <td class="active-col">支持局部重绘（Refine），只修特定段落</td>
-          </tr>
-          <tr>
-            <td>发布与分发</td>
-            <td class="dim">手动复制粘贴、排版丢失、格式混乱</td>
-            <td class="active-col">微信富文本直入剪贴板 + 网站 MDX Git 自动化</td>
-          </tr>
-          <tr>
-            <td>会话韧性</td>
-            <td class="dim">终端意外退出即工作丢失</td>
-            <td class="active-col">Tokio 异步事件循环 + 磁盘 current.json 毫秒恢复</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Rust Engine Power Strip -->
-    <section class="specs-strip">
-      <div class="spec-item">
-        <div class="num">145<span>+</span></div>
-        <div class="label">Automated Unit Tests</div>
-      </div>
-      <div class="spec-item">
-        <div class="num">10<span>D</span></div>
-        <div class="label">Style Extraction Dims</div>
-      </div>
-      <div class="spec-item">
-        <div class="num">4<span>-State</span></div>
-        <div class="label">Robust FSM Guard</div>
-      </div>
-      <div class="spec-item">
-        <div class="num">0<span>ms</span></div>
-        <div class="label">Session Restore Lag</div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">对比维度</th>
+              <th style="width: 37%;">普通通用 AI 工具</th>
+              <th style="width: 38%;">Cognitive Writer v3.3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>风格学习机制</td>
+              <td class="dim">硬塞 3000 字范文（占满上下文，产生规则冲突）</td>
+              <td class="highlight-col">10 维度逆向解析 → 生成 ≤600 字精简执行 Spec</td>
+            </tr>
+            <tr>
+              <td>长文逻辑把控</td>
+              <td class="dim">单次粗暴输出（后半段车轱辘话、逻辑坍缩）</td>
+              <td class="highlight-col">骨架与正文双 Pass 解耦，保证高信息密度</td>
+            </tr>
+            <tr>
+              <td>修改与精修</td>
+              <td class="dim">全篇重新生成（之前写得好的段落被破坏）</td>
+              <td class="highlight-col">支持局部重绘（Refine），只精修特定段落</td>
+            </tr>
+            <tr>
+              <td>发布与分发</td>
+              <td class="dim">手动复制粘贴、排版丢失、格式混乱</td>
+              <td class="highlight-col">微信富文本直入剪贴板 + 网站 MDX Git 自动化</td>
+            </tr>
+            <tr>
+              <td>会话韧性</td>
+              <td class="dim">终端退出即工作全部丢失</td>
+              <td class="highlight-col">Tokio 异步事件循环 + current.json 毫秒恢复</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- Final Product CTA / Preview Box -->
-    <section class="cta-stage">
-      <div class="section-tag">Get Started</div>
-      <h3>把生产力还给思想，把重复劳动留给 Rust。</h3>
-      <p>
+    <!-- Specs Ribbon -->
+    <section class="specs-grid">
+      <div>
+        <div class="spec-val">145+</div>
+        <div class="spec-key">Unit Tests</div>
+      </div>
+      <div>
+        <div class="spec-val">10-D</div>
+        <div class="spec-key">Style Dimensions</div>
+      </div>
+      <div>
+        <div class="spec-val">4-State</div>
+        <div class="spec-key">FSM Robust Guard</div>
+      </div>
+      <div>
+        <div class="spec-val">0 ms</div>
+        <div class="spec-key">Session Restore Lag</div>
+      </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="closing-box">
+      <h3 class="closing-title">把生产力还给思想，把重复劳动留给 Rust。</h3>
+      <p class="closing-desc">
         从一个模糊的想法、几条碎片化素材，到双平台排版精良的上线文章。全程不到 2 分钟。
       </p>
-
-      <div class="fake-btn-group">
-        <div class="fake-btn-primary">
-          <span>🚀 启动 Cognitive Writer (即将集成)</span>
-        </div>
-        <div class="fake-btn-secondary">
-          <span>$ cargo run</span>
-        </div>
+      <div>
+        <span class="cta-button">终端输入 cargo run 即刻启动</span>
       </div>
     </section>
 
   </main>
 
   <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>Cognitive Writer · Built with Rust & Tokio · Crafted by <a href="https://github.com/khlilo-dve">khlilo</a></p>
-      <p style="margin-top: 0.5rem; opacity: 0.6;">Designed for high-leverage builders.</p>
-    </div>
+  <footer class="container">
+    <div>Cognitive Writer · Crafted by khlilo</div>
+    <div>Rust 1.80+ · MIT Licensed</div>
   </footer>
 
 </body>

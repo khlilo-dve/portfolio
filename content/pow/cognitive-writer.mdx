@@ -1,75 +1,74 @@
 ---
-title: "Cognitive Writer v2.0.2(AI Writing Engine)"
-date: "2026-03-16"
-summary: "面向微信公众号的 AI 文章生成 CLI 工具"
-stack: ["Rust", "Tokio", "Clap", "LLM API"]
+title: "Cognitive Writer v3.3 (AI Writing Agent)"
+date: "2026-08-15"
+summary: "一个想法进去，两边文章出来。用 Rust 写的端到端对话式写作 Agent"
+stack: ["Rust", "Tokio", "LLM API", "FSM", "CF_HTML"]
 github: "https://github.com/khlilo-dve/cognitive-writer"
 ---
 
-## 痛点：AI 生成的文章没人味
+## 核心主张：一个想法进去，两边文章出来
 
-用 AI 写文章最大的问题不是写不出来，而是写出来的每篇都像同一个模板——没有你的语气、你的节奏、你的思维方式。
+从一个模糊的选题意图，到微信公众号排版就绪 + 个人网站 MDX 部署上线，全程不切换任何工具。
 
-公众号和博客写作的 AI 工具越来越多，但几乎所有工具都面临同一个问题：生成的文章千篇一律、缺乏个人辨识度。你需要的不是"AI 帮你写"，而是"AI 用你的风格写"。
+你需要的不是"AI 帮你写套话"，而是"AI 用你的风格把文章发布到两边"。生成只是手段，发布才是交付。
 
-## 核心架构：骨架-渲染双通道
+```
+> 写一篇关于认知偏差在投资中的应用，轻辩风格
 
-采用 **骨架-渲染（CoT）双通道架构**，解决单次长文生成的逻辑坍缩/重复问题。
+Agent:  匹配风格 → 骨架生成 → 渲染全文 → 展示
+[全文确认] > 第三段加个具体案例
+Agent:  保持上下文一致，执行局部重绘...
+[全文确认] > OK
+Agent:  微信富文本已注入剪贴板（打开微信后台 Ctrl+V 即排版完成）
+        个人网站 MDX 草稿已写入，确认后说「发布」
+[发布确认] > 发布
+Agent:  git push origin main → 边缘网络自动部署上线
+        done. https://khlilo.xyz/signal/cognitive-bias-investing
+```
+
+---
+
+## 为什么普通 GPT 提示词写不出好文章？
+
+几乎所有通用 AI 写作工具都受制于两个核心瓶颈：
+1. **单次长文本的逻辑坍缩**：一次性让模型写 2000 字，后半段往往充满重复车轱辘话与套话。
+2. **风格硬塞导致上下文污染**：把 3000 字范文直接塞进 Prompt，模型抓不住精髓，甚至产生规则冲突。
+
+Cognitive Writer 采用 **骨架-渲染（CoT）双通道架构** 与 **10 维度风格执行 Spec**：
 
 ```
                          Pass 1 (骨架)              Pass 2 (渲染)
-inputs/idea_01.md ──┬─→ OUTLINE_SYSTEM_PROMPT ─→ outline ──┐
-                    │                                       ├─→ style prompt ─→ Markdown ─┬─→ outputs/{slug}_v{N}.md
-styles/*.md ────────┘───────────────────────────────────────┘                              ├─→ outputs/{slug}_v{N}.html
-                                                                                          └─→ 系统剪贴板（富文本）
+素材 / 选题 ─────────┬─→ outline_system_prompt ─→ 骨架(300-500字) ─┐
+                     │   (注入风格 Spec 约束结构)                   ├─→ style_system_prompt ─→ 全文 Markdown ─┬─→ outputs/{slug}_v{N}.md
+styles/{name}.md ────┘                                            │   + render_prompt                       ├─→ outputs/{slug}_v{N}.html
+(≤600字精简指令) ───────────────────────────────────────────────────┘                                             ├─→ 系统剪贴板 (微信 CF_HTML)
+                                                                                                               └─→ 个人网站 MDX (Git Push)
 ```
 
-**Pass 1 — 骨架生成**：让 LLM 先输出 300-500 字的结构化大纲，包含核心论点、支撑素材方向、段落衔接关系。
+- **Pass 1 骨架生成**：LLM 提取核心论点、素材走向与段落衔接，让结构贴合风格。
+- **Pass 2 正文渲染**：外包通用事实边界与禁止词约束，按骨架展开高信息密度正文。
 
-**Pass 2 — 正文渲染**：将大纲 + 原始素材 + 风格 prompt 拼接，让 LLM 按骨架逐段展开完整正文。
+---
 
-这种分离是为了控制单次生成的信息密度——AI 在处理短文本时质量更高。
+## 核心设计特性
 
-## 三大子命令
+### 1. 自然语言对话状态机（FSM）
+不再需要记忆 CLI 参数与子命令。基于 `repl.rs` 的 4 状态有限状态机（`Idle` ↔ `WaitingForOutline` ↔ `WaitingForFulltext` ↔ `WaitingForPublish`），配合 LLM 意图解析器，能够精准识别用户的口语化意图（"整一篇"、"拉倒"、"第三段改短"、"换轻辩风格"）。
 
-### `generate` — 文章生成
+### 2. 10 维度风格逆向提取（`learn`）
+输入任意文章 URL，通过 Jina Reader 抓取正文，LLM 自动逆向解析（整体定位、标题策略、开头模式、段落节奏、句式特征、论证手法、情绪基调、结尾策略、用词偏好、互动方式），提炼为 ≤600 字的可执行规则 Spec。
 
-选择风格模板 → 读取素材 → 双通道 LLM 调用 → 三轨输出（Markdown 归档 + 微信 HTML + 剪贴板注入）。
+### 3. 双检查点与渐进式反悔
+- **检查点 1（全文确认）**：支持局部重绘（Refine，只修改单段）、换风格整文重写（Update）或放弃。
+- **检查点 2（发布确认）**：微信富文本已注入系统剪贴板，支持「发布」（推送到网站）、「只发网站」或「暂存」。
 
-### `learn` — 风格逆向学习
+### 4. Tokio 异步事件循环与会话持久化
+基于 `tokio::select!` 实现非阻塞输入与信号监听。按 `Ctrl+C` 自动序列化会话至 `~/.cognitive-writer/current.json`，随时中断、随时恢复，杜绝工作丢失。
 
-输入一篇文章 URL，通过 Jina Reader 抓取正文，LLM 从 10 个维度分析写作风格（整体风格定位、标题策略、开头模式、段落节奏、句式特征、论证手法、情绪基调、结尾策略、用词偏好、读者互动方式），输出可复用的 system prompt。
+---
 
-### `refine` — 局部重绘
+## 工业级工程实践
 
-在 Markdown 中插入 `<AI_EDIT instruction="...">` 标记，工具自动识别并调用 LLM 重写标记内的文本，同时保持与上下文风格一致。适合精修段落而不是重写全文。
-
-## 输出：微信兼容富文本
-
-生成的 Markdown 自动转换为微信公众号兼容的 HTML 格式，并通过 CF_HTML 协议注入系统剪贴板。在 WSL2、Linux、Windows 三端都能一键粘贴到微信编辑器。
-
-跨平台剪贴板注入优先级：
-
-| 优先级 | 环境 | 方法 |
-|--------|------|------|
-| 1 | WSL2 | PowerShell CF_HTML（绕过 .NET UTF-16 编码，解决中文乱码） |
-| 2 | Linux X11 | `xclip -selection clipboard -t text/html` |
-| 3 | Linux Wayland | `wl-copy --type text/html` |
-
-## 风格模板系统
-
-每个 `.md` 文件是一个完整的 LLM system prompt，控制文章生成的风格。
-
-`wechat_base.md` 核心规则：
-- **反 AI 清单**：禁用"众所周知"、"不可否认"等套话，禁止"三段并列+升华"公式
-- **人称**：第一人称"我"为主
-- **句长**：以短为主（10-20 字），偶尔长句调节节奏
-- **结构**：开头直给洞察 → 核心概念一句话定义 → 2-3 论点+具体案例 → 最小可行动作
-
-## AI 协作过程
-
-用 Claude Code 协作开发，Rust 从零搭建 CLI 骨架。核心设计围绕对模型能力的理解展开：双通道分离是信息密度控制，风格学习是 few-shot prompt 的自动化提取，局部重绘利用了模型对上下文标记的遵循能力。
-
-## 项目链接
-
-[GitHub](https://github.com/khlilo-dve/cognitive-writer)
+- **145+ 单元测试**：保证意图解析、MDX 生成、拼音归一化匹配零回归。
+- **跨平台剪贴板注入**：WSL2 下使用 PowerShell MemoryStream 绕过 .NET 编码问题，原生支持微信富文本。
+- **轻量解耦**：代码从早期的单文件上帝函数拆分为 14 个职责单一的模块。

@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Github, ExternalLink } from "lucide-react";
+import { ArrowLeft, Github, ExternalLink, Sparkles } from "lucide-react";
 import { TagBadge } from "./tag-badge";
 import { LangToggle } from "./lang-toggle";
 import { useBilingual } from "../hooks/use-bilingual";
 
 interface ProjectLayoutProps {
+  slug?: string;
   title: string;
   titleEn?: string;
   date: string;
@@ -19,6 +20,7 @@ interface ProjectLayoutProps {
 }
 
 export function ProjectLayout({
+  slug,
   title,
   titleEn,
   date,
@@ -31,6 +33,7 @@ export function ProjectLayout({
 }: ProjectLayoutProps) {
   const { lang, setLang } = useBilingual();
   const hasEn = !!enBody;
+  const isCognitiveWriter = slug === "cognitive-writer";
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">
@@ -70,42 +73,56 @@ export function ProjectLayout({
           )}
         </div>
 
-        {(github || demo) && (
-          <div className="mt-4 flex items-center gap-3">
-            {github && (
-              <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
-                style={{
-                  border: "1px solid var(--color-border-default)",
-                  backgroundColor: "var(--color-bg-hover)",
-                  color: "var(--color-text-muted)",
-                }}
-              >
-                <Github size={13} />
-                GitHub
-              </a>
-            )}
-            {demo && (
-              <a
-                href={demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
-                style={{
-                  border: "1px solid var(--color-border-default)",
-                  backgroundColor: "var(--color-bg-hover)",
-                  color: "var(--color-text-muted)",
-                }}
-              >
-                <ExternalLink size={13} />
-                Demo
-              </a>
-            )}
-          </div>
-        )}
+        <div className="mt-4 flex items-center gap-3">
+          {isCognitiveWriter && (
+            <a
+              href="/cognitive-writer.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-all hover:opacity-90"
+              style={{
+                backgroundColor: "#ea580c",
+                color: "#ffffff",
+                boxShadow: "0 4px 12px rgba(234, 88, 12, 0.25)",
+              }}
+            >
+              <Sparkles size={13} />
+              查看产品宣传页
+            </a>
+          )}
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
+              style={{
+                border: "1px solid var(--color-border-default)",
+                backgroundColor: "var(--color-bg-hover)",
+                color: "var(--color-text-muted)",
+              }}
+            >
+              <Github size={13} />
+              GitHub
+            </a>
+          )}
+          {demo && (
+            <a
+              href={demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
+              style={{
+                border: "1px solid var(--color-border-default)",
+                backgroundColor: "var(--color-bg-hover)",
+                color: "var(--color-text-muted)",
+              }}
+            >
+              <ExternalLink size={13} />
+              Demo
+            </a>
+          )}
+        </div>
 
         {summary && (
           <p

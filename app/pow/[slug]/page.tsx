@@ -46,6 +46,7 @@ export default async function ProjectDetailPage({
 
   return (
     <ProjectLayout
+      slug={slug}
       title={article.title}
       titleEn={articleEn?.title}
       date={article.date}

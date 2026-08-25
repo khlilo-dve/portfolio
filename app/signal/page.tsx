@@ -37,13 +37,13 @@ export default function SignalPage() {
                 <div className="flex items-baseline gap-4">
                   <span
                     className="font-mono text-xs xl:text-sm shrink-0"
-                    style={{ color: "var(--color-text-ghost)" }}
+                    style={{ color: "var(--color-text-subtle)" }}
                   >
                     {article.date.replace(/-/g, ".")}
                   </span>
                   <span
                     className="text-sm xl:text-base transition-colors"
-                    style={{ color: "var(--color-text-body)" }}
+                    style={{ color: "var(--color-text-primary)" }}
                   >
                     {article.title}
                   </span>

@@ -15,16 +15,16 @@
   --color-bg-pre: rgba(0,0,0,0.04);
   --color-bg-selection: rgba(0,0,0,0.1);
 
-  --color-text-primary: #1a1a1a;
-  --color-text-heading: #111;
-  --color-text-body: #555;
-  --color-text-muted: #777;
-  --color-text-subtle: #999;
-  --color-text-ghost: #bbb;
+  --color-text-primary: #111827;
+  --color-text-heading: #0f172a;
+  --color-text-body: #2d3748;
+  --color-text-muted: #4a5568;
+  --color-text-subtle: #64748b;
+  --color-text-ghost: #718096;
 
-  --color-border-default: rgba(0,0,0,0.12);
-  --color-border-subtle: rgba(0,0,0,0.08);
-  --color-border-dim: rgba(0,0,0,0.05);
+  --color-border-default: rgba(0,0,0,0.15);
+  --color-border-subtle: rgba(0,0,0,0.10);
+  --color-border-dim: rgba(0,0,0,0.07);
 
   --color-scrollbar-thumb: #ccc;
 }

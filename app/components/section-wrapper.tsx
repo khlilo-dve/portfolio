@@ -33,8 +33,8 @@ export function SectionHeader({
   return (
     <div className="mb-12">
       <h1
-        className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase"
-        style={{ color: "var(--color-text-ghost)" }}
+        className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase font-medium"
+        style={{ color: "var(--color-text-subtle)" }}
       >
         {title}
       </h1>

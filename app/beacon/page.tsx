@@ -41,14 +41,14 @@ function Field({
       style={{ borderBottom: "1px solid var(--color-border-dim)" }}
     >
       <span
-        className="w-32 shrink-0 font-mono text-xs xl:text-sm uppercase tracking-wider"
-        style={{ color: "var(--color-text-ghost)" }}
+        className="w-32 shrink-0 font-mono text-xs xl:text-sm uppercase tracking-wider font-medium"
+        style={{ color: "var(--color-text-subtle)" }}
       >
         {label}
       </span>
       <span
         className={`text-sm xl:text-base ${mono ? "font-mono text-xs xl:text-sm" : ""}`}
-        style={{ color: "var(--color-text-muted)" }}
+        style={{ color: "var(--color-text-body)" }}
       >
         {value}
       </span>
@@ -127,8 +127,8 @@ export default function BeaconPage() {
                     .map(([key, values]) => (
                       <div key={key}>
                         <span
-                          className="font-mono text-[11px] uppercase"
-                          style={{ color: "var(--color-text-ghost)" }}
+                          className="font-mono text-[11px] uppercase font-medium"
+                          style={{ color: "var(--color-text-subtle)" }}
                         >
                           {key}
                         </span>
@@ -188,7 +188,7 @@ export default function BeaconPage() {
                     </span>
                     <p
                       className="text-sm leading-relaxed"
-                      style={{ color: "var(--color-text-muted)" }}
+                      style={{ color: "var(--color-text-body)" }}
                     >
                       {principle}
                     </p>

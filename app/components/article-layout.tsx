@@ -3,8 +3,10 @@ import { ArrowLeft } from "lucide-react";
 import { MdxContent } from "./mdx-content";
 import { BilingualBody } from "./bilingual-body";
 import { TagBadge } from "./tag-badge";
+import { DownloadButton } from "./download-button";
 
 interface ArticleLayoutProps {
+  slug: string;
   title: string;
   titleEn?: string;
   date: string;
@@ -13,9 +15,12 @@ interface ArticleLayoutProps {
   backLabel: string;
   content: string;
   contentEn?: string;
+  rawContent: string;
+  rawContentEn?: string | null;
 }
 
 export function ArticleLayout({
+  slug,
   title,
   titleEn,
   date,
@@ -24,20 +29,27 @@ export function ArticleLayout({
   backLabel,
   content,
   contentEn,
+  rawContent,
+  rawContentEn,
 }: ArticleLayoutProps) {
   const hasEn = !!contentEn;
+  const dlFilename = `${slug}.md`;
+  const dlFilenameEn = `${slug}.en.md`;
 
   if (!hasEn) {
     return (
       <section className="mx-auto max-w-3xl px-6 py-20">
-        <Link
-          href={backHref}
-          className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
-          style={{ color: "var(--color-text-subtle)" }}
-        >
-          <ArrowLeft size={14} />
-          {backLabel}
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href={backHref}
+            className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
+            style={{ color: "var(--color-text-subtle)" }}
+          >
+            <ArrowLeft size={14} />
+            {backLabel}
+          </Link>
+          <DownloadButton rawContent={rawContent} filename={dlFilename} />
+        </div>
         <header className="mt-8 mb-12">
           <h1
             className="text-xl font-medium leading-relaxed md:text-2xl"
@@ -48,7 +60,7 @@ export function ArticleLayout({
           <div className="mt-4 flex items-center gap-4">
             <span
               className="font-mono text-xs"
-              style={{ color: "var(--color-text-ghost)" }}
+              style={{ color: "var(--color-text-subtle)" }}
             >
               {date}
             </span>
@@ -84,6 +96,10 @@ export function ArticleLayout({
         tags={tags}
         zhBody={zhBody}
         enBody={enBody}
+        rawContent={rawContent}
+        rawContentEn={rawContentEn}
+        dlFilename={dlFilename}
+        dlFilenameEn={dlFilenameEn}
       />
     </section>
   );

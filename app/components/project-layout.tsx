@@ -57,7 +57,7 @@ export function ProjectLayout({
         <div className="mt-4 flex items-center gap-4">
           <span
             className="font-mono text-xs"
-            style={{ color: "var(--color-text-ghost)" }}
+            style={{ color: "var(--color-text-subtle)" }}
           >
             {date}
           </span>
@@ -110,7 +110,7 @@ export function ProjectLayout({
         {summary && (
           <p
             className="mt-4 text-sm leading-relaxed"
-            style={{ color: "var(--color-text-subtle)" }}
+            style={{ color: "var(--color-text-body)" }}
           >
             {summary}
           </p>

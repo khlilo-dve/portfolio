@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { LangToggle } from "./lang-toggle";
 import { TagBadge } from "./tag-badge";
+import { DownloadButton } from "./download-button";
 import { useBilingual } from "../hooks/use-bilingual";
 
 interface BilingualBodyProps {
@@ -15,6 +16,10 @@ interface BilingualBodyProps {
   tags?: string[];
   zhBody: React.ReactNode;
   enBody: React.ReactNode;
+  rawContent: string;
+  rawContentEn?: string | null;
+  dlFilename: string;
+  dlFilenameEn: string;
 }
 
 export function BilingualBody({
@@ -26,6 +31,10 @@ export function BilingualBody({
   tags,
   zhBody,
   enBody,
+  rawContent,
+  rawContentEn,
+  dlFilename,
+  dlFilenameEn,
 }: BilingualBodyProps) {
   const { lang, setLang } = useBilingual();
 
@@ -41,7 +50,13 @@ export function BilingualBody({
           {backLabel}
         </Link>
 
-        <LangToggle lang={lang} setLang={setLang} />
+        <div className="flex items-center gap-3">
+          <DownloadButton
+            rawContent={lang === "en" && rawContentEn ? rawContentEn : rawContent}
+            filename={lang === "en" && rawContentEn ? dlFilenameEn : dlFilename}
+          />
+          <LangToggle lang={lang} setLang={setLang} />
+        </div>
       </div>
 
       <header className="mt-8 mb-12">
@@ -54,7 +69,7 @@ export function BilingualBody({
         <div className="mt-4 flex items-center gap-4">
           <span
             className="font-mono text-xs"
-            style={{ color: "var(--color-text-ghost)" }}
+            style={{ color: "var(--color-text-subtle)" }}
           >
             {date}
           </span>

@@ -36,7 +36,7 @@ export default function PoWPage() {
                 <Link
                   href={`/pow/${project.slug}`}
                   className="font-mono text-sm xl:text-base font-medium transition-colors hover:opacity-80"
-                  style={{ color: "var(--color-text-body)" }}
+                  style={{ color: "var(--color-text-primary)" }}
                 >
                   {project.title}
                 </Link>
@@ -45,7 +45,7 @@ export default function PoWPage() {
                     <a
                       href={project.github}
                       className="transition-opacity hover:opacity-70"
-                      style={{ color: "var(--color-text-ghost)" }}
+                      style={{ color: "var(--color-text-subtle)" }}
                       aria-label="GitHub"
                     >
                       <Github size={14} />
@@ -55,7 +55,7 @@ export default function PoWPage() {
                     <a
                       href={project.demo}
                       className="transition-opacity hover:opacity-70"
-                      style={{ color: "var(--color-text-ghost)" }}
+                      style={{ color: "var(--color-text-subtle)" }}
                       aria-label="Demo"
                     >
                       <ExternalLink size={14} />
@@ -67,7 +67,7 @@ export default function PoWPage() {
               {project.summary && (
                 <p
                   className="mt-2 text-xs xl:text-sm"
-                  style={{ color: "var(--color-text-subtle)" }}
+                  style={{ color: "var(--color-text-muted)" }}
                 >
                   {project.summary}
                 </p>
@@ -78,11 +78,11 @@ export default function PoWPage() {
                   {project.stack.map((tech) => (
                     <span
                       key={tech}
-                      className="rounded px-2 py-0.5 font-mono text-[10px]"
+                      className="rounded px-2 py-0.5 font-mono text-[10px] font-medium"
                       style={{
-                        border: "1px solid var(--color-border-subtle)",
+                        border: "1px solid var(--color-border-default)",
                         backgroundColor: "var(--color-bg-surface-raised)",
-                        color: "var(--color-text-ghost)",
+                        color: "var(--color-text-muted)",
                       }}
                     >
                       {tech}

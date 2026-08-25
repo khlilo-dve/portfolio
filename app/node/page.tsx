@@ -40,14 +40,14 @@ export default function NodePage() {
                   <div className="min-w-0">
                     <h3
                       className="text-sm xl:text-base font-medium transition-colors"
-                      style={{ color: "var(--color-text-body)" }}
+                      style={{ color: "var(--color-text-primary)" }}
                     >
                       {article.title}
                     </h3>
                     {article.preview && (
                       <p
                         className="mt-2 text-xs xl:text-sm leading-relaxed line-clamp-2"
-                        style={{ color: "var(--color-text-ghost)" }}
+                        style={{ color: "var(--color-text-muted)" }}
                       >
                         {article.preview}
                       </p>
@@ -62,7 +62,7 @@ export default function NodePage() {
                   </div>
                   <span
                     className="shrink-0 font-mono text-[11px]"
-                    style={{ color: "var(--color-text-ghost)" }}
+                    style={{ color: "var(--color-text-subtle)" }}
                   >
                     {article.date.replace(/-/g, ".")}
                   </span>

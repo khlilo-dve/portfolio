@@ -67,6 +67,21 @@ export function getArticle(category: string, slug: string): Article {
   return { ...extractMeta(slug, data), content };
 }
 
+export function getRawArticle(category: string, slug: string): string {
+  const filePath = path.join(getDir(category), `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return "";
+  return fs.readFileSync(filePath, "utf-8");
+}
+
+export function getRawArticleEnglish(
+  category: string,
+  slug: string
+): string | null {
+  const filePath = path.join(getDir(category), `${slug}.en.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  return fs.readFileSync(filePath, "utf-8");
+}
+
 export function getArticleEnglish(
   category: string,
   slug: string

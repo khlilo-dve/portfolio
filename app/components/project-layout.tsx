@@ -51,7 +51,7 @@ export function ProjectLayout({
 
       <header className="mt-8 mb-12">
         <h1
-          className="text-xl font-medium leading-relaxed md:text-2xl"
+          className="font-serif text-2xl md:text-3xl lg:text-4xl font-normal leading-[1.3] tracking-tight"
           style={{ color: "var(--color-text-heading)" }}
         >
           {lang === "en" && titleEn ? titleEn : title}

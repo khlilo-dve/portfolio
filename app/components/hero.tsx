@@ -33,8 +33,14 @@ export function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.3 }}
-              className="text-lg leading-relaxed tracking-wide md:text-xl xl:text-2xl"
-              style={{ color: "var(--color-text-body)" }}
+              className={`leading-relaxed tracking-wide ${
+                i === 0
+                  ? "font-serif text-2xl md:text-3xl xl:text-4xl font-normal"
+                  : "text-lg md:text-xl xl:text-2xl font-light"
+              }`}
+              style={{
+                color: i === 0 ? "var(--color-text-heading)" : "var(--color-text-body)",
+              }}
             >
               {line}
             </motion.p>

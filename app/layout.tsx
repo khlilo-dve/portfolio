@@ -1,19 +1,21 @@
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Inter, Newsreader, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { ThemeProvider } from "./components/theme-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const newsreader = Newsreader({
@@ -21,6 +23,7 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
   weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -44,7 +47,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} font-sans antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${newsreader.variable} font-sans antialiased`}
         style={{ backgroundColor: "var(--color-bg-body)", color: "var(--color-text-primary)" }}
       >
         <ThemeProvider>

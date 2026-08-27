@@ -35,7 +35,7 @@ export default function PoWPage() {
               <div className="flex items-start justify-between">
                 <Link
                   href={`/pow/${project.slug}`}
-                  className="font-mono text-sm xl:text-base font-medium transition-colors hover:opacity-80"
+                  className="font-serif text-base xl:text-lg font-medium transition-colors hover:opacity-80"
                   style={{ color: "var(--color-text-primary)" }}
                 >
                   {project.title}
@@ -66,7 +66,7 @@ export default function PoWPage() {
 
               {project.summary && (
                 <p
-                  className="mt-2 text-xs xl:text-sm"
+                  className="mt-2 text-xs xl:text-sm leading-relaxed"
                   style={{ color: "var(--color-text-muted)" }}
                 >
                   {project.summary}

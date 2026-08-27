@@ -33,13 +33,13 @@ export function SectionHeader({
   return (
     <div className="mb-12">
       <h1
-        className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase font-medium"
-        style={{ color: "var(--color-text-subtle)" }}
+        className="font-serif text-2xl md:text-3xl font-normal tracking-tight"
+        style={{ color: "var(--color-text-heading)" }}
       >
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-3 text-sm xl:text-base" style={{ color: "var(--color-text-muted)" }}>
+        <p className="mt-2.5 text-sm xl:text-base" style={{ color: "var(--color-text-muted)" }}>
           {subtitle}
         </p>
       )}

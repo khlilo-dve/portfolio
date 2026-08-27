@@ -42,7 +42,7 @@ export default function SignalPage() {
                     {article.date.replace(/-/g, ".")}
                   </span>
                   <span
-                    className="text-sm xl:text-base transition-colors"
+                    className="font-serif text-base md:text-lg transition-colors group-hover:opacity-80"
                     style={{ color: "var(--color-text-primary)" }}
                   >
                     {article.title}

@@ -39,7 +39,7 @@ export default function NodePage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3
-                      className="text-sm xl:text-base font-medium transition-colors"
+                      className="font-serif text-base xl:text-lg font-medium transition-colors group-hover:opacity-85"
                       style={{ color: "var(--color-text-primary)" }}
                     >
                       {article.title}

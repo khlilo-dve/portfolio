@@ -5,14 +5,12 @@ interface TagBadgeProps {
 export function TagBadge({ label }: TagBadgeProps) {
   return (
     <span
-      className="rounded px-2 py-0.5 font-mono text-[11px] font-medium"
+      className="text-xs tracking-tight"
       style={{
-        border: "1px solid var(--color-border-default)",
-        backgroundColor: "var(--color-bg-surface-raised)",
-        color: "var(--color-text-muted)",
+        color: "var(--color-text-subtle)",
       }}
     >
-      {label}
+      #{label}
     </span>
   );
 }

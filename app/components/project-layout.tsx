@@ -36,58 +36,61 @@ export function ProjectLayout({
   const isCognitiveWriter = slug === "cognitive-writer";
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
-      <div className="flex items-center justify-between">
+    <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <div className="flex items-center justify-between pb-6 border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
         <Link
           href="/pow"
-          className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
+          className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-75"
           style={{ color: "var(--color-text-subtle)" }}
         >
-          <ArrowLeft size={14} />
+          <ArrowLeft size={13} />
           ← /PoW
         </Link>
         {hasEn && <LangToggle lang={lang} setLang={setLang} />}
       </div>
 
-      <header className="mt-8 mb-12">
+      <header className="mt-10 mb-12">
         <h1
-          className="text-xl font-medium leading-relaxed md:text-2xl"
+          className="font-serif text-3xl md:text-4xl lg:text-[2.5rem] font-normal leading-[1.25] tracking-[-0.02em]"
           style={{ color: "var(--color-text-heading)" }}
         >
           {lang === "en" && titleEn ? titleEn : title}
         </h1>
 
-        <div className="mt-4 flex items-center gap-4">
-          <span
+        <div className="mt-5 flex flex-wrap items-center gap-4 text-xs">
+          <time
             className="font-mono text-xs"
-            style={{ color: "var(--color-text-subtle)" }}
+            style={{ color: "var(--color-text-ghost)" }}
           >
             {date}
-          </span>
+          </time>
           {stack && stack.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {stack.map((tag) => (
-                <TagBadge key={tag} label={tag} />
-              ))}
+            <div className="font-mono text-xs" style={{ color: "var(--color-text-subtle)" }}>
+              {stack.join(" · ")}
             </div>
           )}
         </div>
 
-        <div className="mt-4 flex items-center gap-3">
+        {summary && (
+          <p
+            className="mt-6 text-base md:text-lg leading-relaxed"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            {summary}
+          </p>
+        )}
+
+        <div className="mt-6 flex flex-wrap items-center gap-6 text-sm">
           {isCognitiveWriter && (
             <a
               href="/cognitive-writer.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-all hover:opacity-90"
-              style={{
-                backgroundColor: "#ea580c",
-                color: "#ffffff",
-                boxShadow: "0 4px 12px rgba(234, 88, 12, 0.25)",
-              }}
+              className="inline-flex items-center gap-1.5 underline underline-offset-4 transition-opacity hover:opacity-75"
+              style={{ color: "var(--color-text-primary)" }}
             >
-              <Sparkles size={13} />
-              查看产品宣传页
+              <Sparkles size={14} />
+              产品介绍页 ↗
             </a>
           )}
           {github && (
@@ -95,15 +98,11 @@ export function ProjectLayout({
               href={github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
-              style={{
-                border: "1px solid var(--color-border-default)",
-                backgroundColor: "var(--color-bg-hover)",
-                color: "var(--color-text-muted)",
-              }}
+              className="inline-flex items-center gap-1.5 underline underline-offset-4 transition-opacity hover:opacity-75"
+              style={{ color: "var(--color-text-primary)" }}
             >
-              <Github size={13} />
-              GitHub
+              <Github size={14} />
+              GitHub ↗
             </a>
           )}
           {demo && (
@@ -111,32 +110,14 @@ export function ProjectLayout({
               href={demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all hover:opacity-80"
-              style={{
-                border: "1px solid var(--color-border-default)",
-                backgroundColor: "var(--color-bg-hover)",
-                color: "var(--color-text-muted)",
-              }}
+              className="inline-flex items-center gap-1.5 underline underline-offset-4 transition-opacity hover:opacity-75"
+              style={{ color: "var(--color-text-primary)" }}
             >
-              <ExternalLink size={13} />
-              Demo
+              <ExternalLink size={14} />
+              Live Demo ↗
             </a>
           )}
         </div>
-
-        {summary && (
-          <p
-            className="mt-4 text-sm leading-relaxed"
-            style={{ color: "var(--color-text-body)" }}
-          >
-            {summary}
-          </p>
-        )}
-
-        <div
-          className="mt-6 h-px"
-          style={{ backgroundColor: "var(--color-border-subtle)" }}
-        />
       </header>
 
       <div style={{ display: lang === "zh" ? "block" : "none" }}>
@@ -147,6 +128,6 @@ export function ProjectLayout({
           {enBody}
         </div>
       )}
-    </section>
+    </article>
   );
 }

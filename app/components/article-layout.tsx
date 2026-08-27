@@ -38,47 +38,46 @@ export function ArticleLayout({
 
   if (!hasEn) {
     return (
-      <section className="mx-auto max-w-3xl px-6 py-20">
-        <div className="flex items-center justify-between">
+      <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <div className="flex items-center justify-between pb-6 border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
           <Link
             href={backHref}
-            className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-80"
+            className="inline-flex items-center gap-2 text-xs transition-opacity hover:opacity-75"
             style={{ color: "var(--color-text-subtle)" }}
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={13} />
             {backLabel}
           </Link>
           <DownloadButton rawContent={rawContent} filename={dlFilename} />
         </div>
-        <header className="mt-8 mb-12">
+
+        <header className="mt-10 mb-12">
           <h1
-            className="text-xl font-medium leading-relaxed md:text-2xl"
+            className="font-serif text-3xl md:text-4xl lg:text-[2.5rem] font-normal leading-[1.25] tracking-[-0.02em]"
             style={{ color: "var(--color-text-heading)" }}
           >
             {title}
           </h1>
-          <div className="mt-4 flex items-center gap-4">
-            <span
+
+          <div className="mt-5 flex flex-wrap items-center gap-4 text-xs">
+            <time
               className="font-mono text-xs"
-              style={{ color: "var(--color-text-subtle)" }}
+              style={{ color: "var(--color-text-ghost)" }}
             >
               {date}
-            </span>
+            </time>
             {tags && tags.length > 0 && (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <TagBadge key={tag} label={tag} />
                 ))}
               </div>
             )}
           </div>
-          <div
-            className="mt-6 h-px"
-            style={{ backgroundColor: "var(--color-border-subtle)" }}
-          />
         </header>
+
         <MdxContent source={content} />
-      </section>
+      </article>
     );
   }
 
@@ -86,7 +85,7 @@ export function ArticleLayout({
   const enBody = <MdxContent source={contentEn!} />;
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
+    <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
       <BilingualBody
         backHref={backHref}
         backLabel={backLabel}
@@ -101,6 +100,6 @@ export function ArticleLayout({
         dlFilename={dlFilename}
         dlFilenameEn={dlFilenameEn}
       />
-    </section>
+    </article>
   );
 }

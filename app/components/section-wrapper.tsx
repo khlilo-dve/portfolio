@@ -13,10 +13,10 @@ export function SectionWrapper({
 }: SectionWrapperProps) {
   return (
     <motion.section
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`mx-auto max-w-3xl xl:max-w-4xl px-6 xl:px-8 py-16 md:py-24 ${className}`}
+      transition={{ duration: 0.5 }}
+      className={`mx-auto max-w-4xl xl:max-w-5xl 2xl:max-w-6xl px-6 xl:px-8 py-20 ${className}`}
     >
       {children}
     </motion.section>
@@ -31,21 +31,22 @@ export function SectionHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-14 pb-6 border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
+    <div className="mb-12">
       <h1
-        className="font-serif text-3xl md:text-4xl font-normal tracking-[-0.02em]"
-        style={{ color: "var(--color-text-heading)" }}
+        className="font-mono text-xs xl:text-sm tracking-[0.3em] uppercase font-medium"
+        style={{ color: "var(--color-text-subtle)" }}
       >
         {title}
       </h1>
       {subtitle && (
-        <p
-          className="mt-3 text-base leading-relaxed"
-          style={{ color: "var(--color-text-muted)" }}
-        >
+        <p className="mt-3 text-sm xl:text-base" style={{ color: "var(--color-text-muted)" }}>
           {subtitle}
         </p>
       )}
+      <div
+        className="mt-4 h-px w-8"
+        style={{ backgroundColor: "var(--color-border-default)" }}
+      />
     </div>
   );
 }

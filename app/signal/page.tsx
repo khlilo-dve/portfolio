@@ -1,4 +1,5 @@
 import { SectionWrapper, SectionHeader } from "../components/section-wrapper";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllArticles } from "@/lib/mdx";
@@ -9,7 +10,7 @@ export default function SignalPage() {
   return (
     <SectionWrapper>
       <SectionHeader
-        title="Signal"
+        title="/Signal"
         subtitle="认知沉淀 — 经过深度思考后输出的观点与方法论"
       />
 
@@ -18,80 +19,82 @@ export default function SignalPage() {
           className="py-12 text-center font-mono text-sm"
           style={{ color: "var(--color-text-ghost)" }}
         >
-          暂无已发布信号
+          &gt;_ awaiting signal...
         </p>
       ) : (
-        <div className="divide-y" style={{ borderColor: "var(--color-border-subtle)" }}>
+        <div className="space-y-0">
           {articles.map((article, i) => (
             <div
               key={article.slug}
               className="animate-fade-in-up"
-              style={{ animationDelay: `${i * 0.05}s` }}
+              style={{ animationDelay: `${i * 0.08}s` }}
             >
               <Link
                 href={`/signal/${article.slug}`}
-                className="group flex items-baseline justify-between py-5 transition-opacity hover:opacity-75"
+                className="group flex items-baseline justify-between py-4 transition-all"
+                style={{ borderBottom: "1px solid var(--color-border-dim)" }}
               >
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
-                  <time
-                    className="font-mono text-xs shrink-0"
-                    style={{ color: "var(--color-text-ghost)" }}
+                <div className="flex items-baseline gap-4">
+                  <span
+                    className="font-mono text-xs xl:text-sm shrink-0"
+                    style={{ color: "var(--color-text-subtle)" }}
                   >
                     {article.date.replace(/-/g, ".")}
-                  </time>
+                  </span>
                   <span
-                    className="font-serif text-lg md:text-xl font-normal tracking-[-0.01em]"
+                    className="text-sm xl:text-base transition-colors"
                     style={{ color: "var(--color-text-primary)" }}
                   >
                     {article.title}
                   </span>
                 </div>
-                <span
-                  className="font-mono text-xs opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ color: "var(--color-text-ghost)" }}
-                >
-                  ↗
-                </span>
+                <ArrowRight
+                  size={14}
+                  className="ml-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-40"
+                  style={{ color: "var(--color-text-primary)" }}
+                />
               </Link>
             </div>
           ))}
         </div>
       )}
 
-      {/* 尾注订阅区 (Colophon) — 纯排版去卡片 */}
       <div
-        className="mt-20 pt-10 border-t animate-fade-in"
+        className="mt-16 rounded-lg p-6 animate-fade-in"
         style={{
-          borderColor: "var(--color-border-subtle)",
+          animationDelay: "0.3s",
+          border: "1px solid var(--color-border-default)",
+          backgroundColor: "var(--color-bg-surface-raised)",
         }}
       >
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="flex flex-col items-center gap-6 sm:flex-row">
           <div
-            className="h-24 w-24 shrink-0 overflow-hidden border"
+            className="h-28 w-28 shrink-0 overflow-hidden rounded-lg"
             style={{
-              borderColor: "var(--color-border-default)",
+              border: "1px solid var(--color-border-default)",
             }}
           >
             <Image
               src="/wechat-qrcode.png"
               alt="微信公众号二维码"
-              width={96}
-              height={96}
+              width={112}
+              height={112}
               className="h-full w-full object-cover"
             />
           </div>
           <div>
-            <h3
-              className="font-serif text-base md:text-lg font-normal"
-              style={{ color: "var(--color-text-heading)" }}
-            >
-              微信公众号订阅
-            </h3>
             <p
-              className="mt-2 text-sm leading-relaxed"
+              className="font-mono text-sm"
               style={{ color: "var(--color-text-muted)" }}
             >
-              扫描二维码关注公众号，获取最新的认知输出与深度思考。
+              &gt;_ Subscribe to Signal
+            </p>
+            <p
+              className="mt-2 text-xs leading-relaxed"
+              style={{ color: "var(--color-text-ghost)" }}
+            >
+              扫描二维码关注微信公众号，获取最新的认知输出与深度思考。
+              <br />
               低频更新，仅在有真正值得分享的内容时推送。
             </p>
           </div>

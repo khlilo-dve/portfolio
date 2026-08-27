@@ -7,27 +7,47 @@ interface LangToggleProps {
 
 export function LangToggle({ lang, setLang }: LangToggleProps) {
   return (
-    <div className="flex items-center gap-1.5 font-mono text-xs" style={{ color: "var(--color-text-subtle)" }}>
-      <button
-        onClick={() => setLang("zh")}
-        className="transition-opacity hover:opacity-100 cursor-pointer"
-        style={{
-          color: lang === "zh" ? "var(--color-text-primary)" : "var(--color-text-ghost)",
-          fontWeight: lang === "zh" ? "600" : "400",
-        }}
-      >
-        中
-      </button>
-      <span style={{ color: "var(--color-border-default)" }}>/</span>
+    <div
+      className="flex items-center rounded-md font-mono text-[11px]"
+      style={{
+        border: "1px solid var(--color-border-default)",
+        backgroundColor: "var(--color-bg-surface-raised)",
+      }}
+    >
       <button
         onClick={() => setLang("en")}
-        className="transition-opacity hover:opacity-100 cursor-pointer"
+        className="px-2.5 py-1 rounded-l-md transition-all cursor-pointer"
         style={{
-          color: lang === "en" ? "var(--color-text-primary)" : "var(--color-text-ghost)",
-          fontWeight: lang === "en" ? "600" : "400",
+          color:
+            lang === "en"
+              ? "var(--color-text-heading)"
+              : "var(--color-text-ghost)",
+          backgroundColor:
+            lang === "en" ? "var(--color-bg-active)" : "transparent",
         }}
       >
         EN
+      </button>
+      <div
+        style={{
+          width: "1px",
+          height: "14px",
+          backgroundColor: "var(--color-border-default)",
+        }}
+      />
+      <button
+        onClick={() => setLang("zh")}
+        className="px-2.5 py-1 rounded-r-md transition-all cursor-pointer"
+        style={{
+          color:
+            lang === "zh"
+              ? "var(--color-text-heading)"
+              : "var(--color-text-ghost)",
+          backgroundColor:
+            lang === "zh" ? "var(--color-bg-active)" : "transparent",
+        }}
+      >
+        ZH
       </button>
     </div>
   );

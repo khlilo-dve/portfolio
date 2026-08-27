@@ -9,8 +9,8 @@ export default function PoWPage() {
   return (
     <SectionWrapper>
       <SectionHeader
-        title="Proof of Work"
-        subtitle="已交付与进行中的工程系统与工具"
+        title="/PoW"
+        subtitle="Proof of Work — 已完成和进行中的工程项目"
       />
 
       {projects.length === 0 ? (
@@ -18,40 +18,37 @@ export default function PoWPage() {
           className="py-12 text-center font-mono text-sm"
           style={{ color: "var(--color-text-ghost)" }}
         >
-          暂无已发布项目
+          &gt;_ building...
         </p>
       ) : (
-        <div className="divide-y" style={{ borderColor: "var(--color-border-subtle)" }}>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, i) => (
             <div
               key={project.slug}
-              className="py-8 first:pt-0 last:pb-0 animate-fade-in-up"
-              style={{ animationDelay: `${i * 0.06}s` }}
+              className="group rounded-lg p-5 transition-all animate-fade-in-up"
+              style={{
+                animationDelay: `${i * 0.06}s`,
+                border: "1px solid var(--color-border-dim)",
+                backgroundColor: "var(--color-bg-surface)",
+              }}
             >
-              <div className="flex items-baseline justify-between gap-4">
+              <div className="flex items-start justify-between">
                 <Link
                   href={`/pow/${project.slug}`}
-                  className="group inline-block"
+                  className="font-mono text-sm xl:text-base font-medium transition-colors hover:opacity-80"
+                  style={{ color: "var(--color-text-primary)" }}
                 >
-                  <h2
-                    className="font-serif text-xl md:text-2xl font-normal tracking-[-0.01em] transition-opacity group-hover:opacity-75"
-                    style={{ color: "var(--color-text-primary)" }}
-                  >
-                    {project.title}
-                  </h2>
+                  {project.title}
                 </Link>
-
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   {project.github && (
                     <a
                       href={project.github}
                       className="transition-opacity hover:opacity-70"
                       style={{ color: "var(--color-text-subtle)" }}
                       aria-label="GitHub"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
-                      <Github size={15} />
+                      <Github size={14} />
                     </a>
                   )}
                   {project.demo && (
@@ -60,10 +57,8 @@ export default function PoWPage() {
                       className="transition-opacity hover:opacity-70"
                       style={{ color: "var(--color-text-subtle)" }}
                       aria-label="Demo"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
-                      <ExternalLink size={15} />
+                      <ExternalLink size={14} />
                     </a>
                   )}
                 </div>
@@ -71,7 +66,7 @@ export default function PoWPage() {
 
               {project.summary && (
                 <p
-                  className="mt-3 text-base leading-relaxed"
+                  className="mt-2 text-xs xl:text-sm"
                   style={{ color: "var(--color-text-muted)" }}
                 >
                   {project.summary}
@@ -79,11 +74,20 @@ export default function PoWPage() {
               )}
 
               {project.stack && project.stack.length > 0 && (
-                <div
-                  className="mt-4 font-mono text-xs"
-                  style={{ color: "var(--color-text-subtle)" }}
-                >
-                  {project.stack.join(" · ")}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded px-2 py-0.5 font-mono text-[10px] font-medium"
+                      style={{
+                        border: "1px solid var(--color-border-default)",
+                        backgroundColor: "var(--color-bg-surface-raised)",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               )}
             </div>
